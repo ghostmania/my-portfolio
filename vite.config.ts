@@ -11,7 +11,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
   const metadata = siteMetadata(env.SITE_URL || "");
   return {
-    base: env.VITE_BASE_PATH || "/",
+    base: `${(env.VITE_BASE_PATH || "/").replace(/\/+$/, "")}/`,
     build: {
       rolldownOptions: {
         input: {

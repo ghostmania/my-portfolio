@@ -50,3 +50,7 @@ Journeys derived from the owner's request: landing visitors see hero, services a
 - Added the actual social-card.png hero screenshot referenced by publication metadata.
 - Git initialized on main; private source screenshots remain ignored.
 - Production dependency audit: npm audit --omit=dev reported 0 vulnerabilities.
+
+- Clean-URL subpath check: desktop and mobile gallery/page navigation passed under /my-portfolio/.
+- Initial remote workflow reached the Pages check before hosting was enabled; enabled Pages with workflow builds and reran.
+- CI then caught image URLs missing the separator when configure-pages returned /my-portfolio without a trailing slash (4 failed, 10 passed). Normalized the Vite base to exactly one trailing slash.

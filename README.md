@@ -2,6 +2,8 @@
 
 React, TypeScript, Vite, Tailwind CSS, and Lucide. This implements the English-language Dark Tech design in `mockup.html` and the scope in `portfolio-project-brief.md`. Both input files are preserved.
 
+Repository: [ghostmania/my-portfolio](https://github.com/ghostmania/my-portfolio). GitHub Pages address: [portfolio](https://ghostmania.github.io/my-portfolio/), [projects](https://ghostmania.github.io/my-portfolio/projects/).
+
 ## Pages
 
 - Landing page: hero, services, screenshot gallery with a full-size image viewer, and contact.
