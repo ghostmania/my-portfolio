@@ -1,3 +1,4 @@
+import { useLanguage } from "../i18n/context";
 import { ArrowUpRight } from "lucide-react";
 import type { Profile } from "../data/profile";
 
@@ -8,6 +9,7 @@ export function SocialLinks({
   profile: Profile;
   hideMissing?: boolean;
 }) {
+  const { t } = useLanguage();
   const links = [
     { label: "LinkedIn", url: profile.linkedin },
     { label: "GitHub", url: profile.github },
@@ -25,7 +27,7 @@ export function SocialLinks({
           !hideMissing && (
             <span className="social-pending" key={label}>
               {label}
-              <small>Coming soon</small>
+              <small>{t("Coming soon")}</small>
             </span>
           )
         ),

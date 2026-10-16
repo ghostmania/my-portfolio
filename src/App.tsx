@@ -1,3 +1,5 @@
+import { useLanguage } from "./i18n/context";
+import { LanguageProvider } from "./i18n/LanguageProvider";
 import { Header } from "./components/layout/Header";
 import { Footer } from "./components/layout/Footer";
 import { Hero } from "./components/sections/Hero";
@@ -14,20 +16,30 @@ export default function App() {
     window.location.pathname,
   );
   return (
+    <LanguageProvider technical={technical}>
+      <Portfolio technical={technical} />
+    </LanguageProvider>
+  );
+}
+
+function Portfolio({ technical }: { technical: boolean }) {
+  const { t } = useLanguage();
+  return (
     <>
       <a className="skip" href="#main">
-        Skip to content
+        {t("Skip to content")}
       </a>
       <Header technical={technical} />
       <main id="main" tabIndex={-1}>
         {technical ? (
           <div className="wrap">
             <div className="technical-intro">
-              <span className="eyebrow">Behind the work</span>
-              <h1>Projects & engineering.</h1>
+              <span className="eyebrow">{t("Behind the work")}</span>
+              <h1>{t("Projects & engineering.")}</h1>
               <p>
-                A closer look at the products, decisions, and technology behind
-                my work.
+                {t(
+                  "A closer look at the products, decisions, and technology behind my work.",
+                )}
               </p>
             </div>
             <Projects />

@@ -1,3 +1,4 @@
+import { useLanguage } from "../i18n/context";
 import { ArrowUpRight, Star } from "lucide-react";
 import type { Project } from "../data/projects";
 import {
@@ -22,6 +23,7 @@ export function ProjectCard({
   project: Project;
   onSelect: (project: Project) => void;
 }) {
+  const { t } = useLanguage();
   const Artwork = artwork[project.id];
   const preview = project.screenshot ? (
     <div
@@ -30,7 +32,7 @@ export function ProjectCard({
       <img
         className="project-screenshot"
         src={`${import.meta.env.BASE_URL}${project.screenshot.path}`}
-        alt={project.screenshot.alt}
+        alt={t(project.screenshot.alt)}
         width={project.screenshot.width}
         height={project.screenshot.height}
         loading="lazy"
@@ -40,23 +42,23 @@ export function ProjectCard({
   ) : (
     <Artwork />
   );
-  const label = "Project overview";
+  const label = t("Project overview");
   return (
     <article className={project.featured ? "featured" : "project-card"}>
       {!project.featured && preview}
       <div className={project.featured ? "feature-copy" : "project-card-body"}>
         {project.featured && (
           <span className="feature-label">
-            <Star size={14} aria-hidden="true" />
-            Featured project · Full-stack ownership
+            <Star size={14} aria-hidden="true" />{" "}
+            {t("Featured project · Full-stack ownership")}
           </span>
         )}
         <h3>{project.name}</h3>
-        <p className="project-description">{project.summary}</p>
+        <p className="project-description">{t(project.summary)}</p>
         <div className="tags">
           {project.tags.map((tag) => (
             <span className="tag" key={tag}>
-              {tag}
+              {t(tag)}
             </span>
           ))}
         </div>
@@ -78,12 +80,13 @@ export function ProjectCard({
 }
 
 export function ProjectResults({ results }: { results: Project["results"] }) {
+  const { t } = useLanguage();
   return (
     <div className="project-results">
       {results.map((result) => (
         <div className="od-stat" key={result.label}>
-          <strong>{result.value}</strong>
-          <small>{result.label}</small>
+          <strong>{t(result.value)}</strong>
+          <small>{t(result.label)}</small>
         </div>
       ))}
     </div>

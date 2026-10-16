@@ -1,3 +1,4 @@
+import { useLanguage } from "../../i18n/context";
 import {
   ArrowUpRight,
   Cable,
@@ -34,6 +35,7 @@ const services = [
 ];
 
 export function Services() {
+  const { t } = useLanguage();
   return (
     <section
       id="services"
@@ -43,11 +45,13 @@ export function Services() {
       <div className="wrap">
         <div className="section-heading">
           <div>
-            <span className="eyebrow">What I can do for you</span>
-            <h2 id="services-heading">Your next idea. Let's build it.</h2>
+            <span className="eyebrow">{t("What I can do for you")}</span>
+            <h2 id="services-heading">
+              {t("Your next idea. Let's build it.")}
+            </h2>
           </div>
           <a href="#contact" className="text-link">
-            Discuss your project
+            {t("Discuss your project")}{" "}
             <ArrowUpRight size={18} aria-hidden="true" />
           </a>
         </div>
@@ -56,8 +60,8 @@ export function Services() {
             <article className="service" key={title}>
               <Icon className="od-icon" aria-hidden="true" />
               <div>
-                <h3>{title}</h3>
-                <p>{description}</p>
+                <h3>{t(title)}</h3>
+                <p>{t(description)}</p>
               </div>
             </article>
           ))}

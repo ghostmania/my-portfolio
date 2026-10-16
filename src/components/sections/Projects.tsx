@@ -1,9 +1,11 @@
+import { useLanguage } from "../../i18n/context";
 import { useState } from "react";
 import { projects, type Project } from "../../data/projects";
 import { ProjectCard } from "../ProjectCard";
 import { ProjectModal } from "../ProjectModal";
 
 export function Projects() {
+  const { t } = useLanguage();
   const [selected, setSelected] = useState<Project | null>(null);
   return (
     <section
@@ -13,13 +15,12 @@ export function Projects() {
     >
       <div className="section-heading">
         <div>
-          <span className="eyebrow">Selected work</span>
-          <h2 id="projects-heading">Ideas brought to life.</h2>
+          <span className="eyebrow">{t("Selected work")}</span>
+          <h2 id="projects-heading">{t("Ideas brought to life.")}</h2>
         </div>
         <p>
-          Platforms, marketplaces, and mobile apps.
-          <br />
-          Built with purpose. Owned end to end.
+          {t("Platforms, marketplaces, and mobile apps.")} <br />{" "}
+          {t("Built with purpose. Owned end to end.")}
         </p>
       </div>
       {projects

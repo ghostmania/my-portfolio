@@ -1,9 +1,11 @@
+import { useLanguage } from "../../i18n/context";
 import { useState } from "react";
 import { ArrowUpRight, Copy, Download } from "lucide-react";
 import type { Profile } from "../../data/profile";
 import { SocialLinks } from "../SocialLinks";
 
 export function Contact({ profile }: { profile: Profile }) {
+  const { t } = useLanguage();
   const [copyStatus, setCopyStatus] = useState("");
   async function copyEmail() {
     try {
@@ -16,15 +18,15 @@ export function Contact({ profile }: { profile: Profile }) {
   return (
     <section id="contact" className="contact" aria-labelledby="contact-heading">
       <div>
-        <span className="eyebrow">Have something in mind?</span>
+        <span className="eyebrow">{t("Have something in mind?")}</span>
         <h2 id="contact-heading">
-          Let's build
-          <br />
-          <span>something great.</span>
+          {t("Let's build")} <br />
+          <span>{t("something great.")}</span>
         </h2>
         <p>
-          A new product, an ambitious challenge, or a platform ready for its
-          next chapter. I'd love to hear about it.
+          {t(
+            "A new product, an ambitious challenge, or a platform ready for its next chapter. I'd love to hear about it.",
+          )}
         </p>
       </div>
       <div className="contact-links">
@@ -32,24 +34,23 @@ export function Contact({ profile }: { profile: Profile }) {
           <>
             <a className="contact-row" href={`mailto:${profile.email}`}>
               <span className="od-field">
-                <span>Start a conversation</span>
+                <span>{t("Start a conversation")}</span>
                 <small>{profile.email}</small>
               </span>
               <ArrowUpRight size={20} aria-hidden="true" />
             </a>
             <button className="copy-email text-link" onClick={copyEmail}>
-              <Copy size={14} aria-hidden="true" />
-              Copy email
+              <Copy size={14} aria-hidden="true" /> {t("Copy email")}
             </button>
             <span role="status" className="copy-status">
-              {copyStatus}
+              {t(copyStatus)}
             </span>
           </>
         ) : (
           <div className="contact-row pending">
             <span className="od-field">
-              <span>Start a conversation</span>
-              <small>Email address to be added</small>
+              <span>{t("Start a conversation")}</span>
+              <small>{t("Email address to be added")}</small>
             </span>
             <ArrowUpRight size={20} aria-hidden="true" />
           </div>
@@ -61,16 +62,16 @@ export function Contact({ profile }: { profile: Profile }) {
             download
           >
             <span className="od-field">
-              <span>Download résumé</span>
-              <small>PDF · Get to know my work</small>
+              <span>{t("Download résumé")}</span>
+              <small>{t("PDF · Get to know my work")}</small>
             </span>
             <Download size={20} aria-hidden="true" />
           </a>
         ) : (
           <div className="contact-row pending">
             <span className="od-field">
-              <span>My résumé</span>
-              <small>PDF will be available here</small>
+              <span>{t("My résumé")}</span>
+              <small>{t("PDF will be available here")}</small>
             </span>
             <Download size={20} aria-hidden="true" />
           </div>

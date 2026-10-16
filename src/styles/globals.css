@@ -1,5 +1,61 @@
 @import "tailwindcss";
 @font-face {
+  font-family: "Inter Cyrillic";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("@fontsource-variable/inter/files/inter-cyrillic-wght-normal.woff2")
+    format("woff2");
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: "JetBrains Mono Cyrillic";
+  font-style: normal;
+  font-weight: 100 800;
+  font-display: swap;
+  src: url("@fontsource-variable/jetbrains-mono/files/jetbrains-mono-cyrillic-wght-normal.woff2")
+    format("woff2");
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+html:lang(ru) {
+  --display: "Inter Cyrillic", "Space Grotesk Variable", sans-serif;
+  --body: "Inter Cyrillic", "Inter Variable", sans-serif;
+  --mono: "JetBrains Mono Cyrillic", "JetBrains Mono Variable", monospace;
+}
+.language-switch {
+  display: flex;
+  flex-shrink: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 3px;
+  gap: 2px;
+}
+.language-switch button {
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 5px;
+  font: 12px var(--mono);
+  color: var(--muted);
+}
+.language-switch button[aria-pressed="true"] {
+  color: var(--accent);
+  background: #65d9e814;
+}
+@media (max-width: 900px) {
+  .site-header .header-cta {
+    display: none;
+  }
+}
+@media (max-width: 767px) {
+  html:lang(ru) .hero h1 {
+    font-size: clamp(28px, 7.2vw, 48px);
+    letter-spacing: -1px;
+  }
+  html:lang(ru) .contact h2 {
+    font-size: clamp(30px, 8vw, 48px);
+  }
+}
+@font-face {
   font-family: "Inter Variable";
   font-style: normal;
   font-weight: 100 900;
@@ -1526,47 +1582,6 @@ a,
   color: var(--muted);
   max-width: 650px;
 }
-.visual-gallery {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 28px;
-}
-.gallery-tile {
-  text-align: left;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  overflow: hidden;
-  background: var(--panel);
-  transition: border-color var(--duration);
-}
-.gallery-tile:hover {
-  border-color: var(--accent);
-}
-.gallery-preview {
-  aspect-ratio: 16 / 10;
-  background: var(--card);
-  display: grid;
-  place-items: center;
-  padding: 16px;
-}
-.gallery-preview img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  min-height: 0;
-}
-.gallery-label {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 18px 22px;
-  font-family: var(--display);
-  font-weight: 600;
-}
-.gallery-label svg {
-  color: var(--accent);
-}
 dialog.image-viewer {
   width: min(1500px, calc(100vw - 32px));
   max-width: none;
@@ -1604,10 +1619,6 @@ dialog.image-viewer {
   color: var(--muted);
 }
 @media (max-width: 700px) {
-  .visual-gallery {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
   .viewer-controls {
     gap: 8px;
     font-size: 12px;

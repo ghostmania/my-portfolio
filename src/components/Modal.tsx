@@ -1,3 +1,4 @@
+import { useLanguage } from "../i18n/context";
 import { useEffect, useRef, type ReactNode, type KeyboardEvent } from "react";
 import { X } from "lucide-react";
 
@@ -14,6 +15,7 @@ export function Modal({
   className?: string;
   onKeyDown?: (event: KeyboardEvent<HTMLDialogElement>) => void;
 }) {
+  const { t } = useLanguage();
   const ref = useRef<HTMLDialogElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
 
@@ -75,7 +77,7 @@ export function Modal({
         <button
           ref={closeRef}
           className="close-dialog"
-          aria-label="Close dialog"
+          aria-label={t("Close dialog")}
           onClick={onClose}
         >
           <X size={20} aria-hidden="true" />

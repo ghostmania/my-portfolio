@@ -1,8 +1,10 @@
+import { useLanguage } from "../../i18n/context";
 import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import { profile } from "../../data/profile";
 
 export function Header({ technical = false }: { technical?: boolean }) {
+  const { t, language, setLanguage } = useLanguage();
   const home = import.meta.env.BASE_URL;
   const navigation = technical
     ? [
@@ -54,15 +56,15 @@ export function Header({ technical = false }: { technical?: boolean }) {
         <a
           className="wordmark"
           href={technical ? home : "#top"}
-          aria-label={`${profile.name} home`}
+          aria-label={t("{name} home", { name: t(profile.name) })}
         >
-          {profile.name}
+          {t(profile.name)}
           <span>.</span>
         </a>
         <nav
           id="navigation"
           className={`navigation${open ? " open" : ""}`}
-          aria-label="Main navigation"
+          aria-label={t("Main navigation")}
         >
           {navigation.map(({ label, href }) => (
             <a
@@ -73,23 +75,47 @@ export function Header({ technical = false }: { technical?: boolean }) {
               }
               onClick={() => setOpen(false)}
             >
-              {label}
+              {t(label)}
             </a>
           ))}
         </nav>
+        <div
+          className="language-switch"
+          role="group"
+          aria-label={t("Language")}
+        >
+          <button
+            type="button"
+            lang="en"
+            aria-label="EN — English"
+            aria-pressed={language === "en"}
+            onClick={() => setLanguage("en")}
+          >
+            EN
+          </button>
+          <button
+            type="button"
+            lang="ru"
+            aria-label="RU — Русский"
+            aria-pressed={language === "ru"}
+            onClick={() => setLanguage("ru")}
+          >
+            RU
+          </button>
+        </div>
         <a
           className="small-button header-cta"
           href="#contact"
           onClick={() => setOpen(false)}
         >
-          Let's talk <ArrowUpRight size={16} aria-hidden="true" />
+          {t("Let's talk")} <ArrowUpRight size={16} aria-hidden="true" />
         </a>
         <button
           ref={toggleRef}
           className="menu-toggle"
           aria-expanded={open}
           aria-controls="navigation"
-          aria-label={open ? "Close navigation" : "Open navigation"}
+          aria-label={t(open ? "Close navigation" : "Open navigation")}
           onClick={() => setOpen((value) => !value)}
         >
           {open ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}

@@ -120,6 +120,19 @@ test("landing gallery enlarges images and links to the separate technical page",
     page.locator("#projects, #about, #skills, #experience"),
   ).toHaveCount(0);
   await expect(page.locator("main section[id]")).toHaveCount(3);
+  const carousel = page.getByRole("group", { name: "From idea to screen." });
+  const thumbnails = carousel.getByRole("button", { name: /Show screenshot/ });
+  await expect(thumbnails).toHaveCount(9);
+  await carousel.getByRole("button", { name: "Previous screenshot" }).click();
+  await expect(thumbnails.last()).toHaveAttribute("aria-current", "true");
+  await carousel.getByRole("button", { name: "Next screenshot" }).click();
+  await expect(thumbnails.first()).toHaveAttribute("aria-current", "true");
+  await thumbnails.nth(6).click();
+  await expect(carousel.getByRole("heading", { name: "Pyjam" })).toBeVisible();
+  await page.keyboard.press("End");
+  await expect(thumbnails.last()).toBeFocused();
+  await page.keyboard.press("Home");
+  await expect(thumbnails.first()).toBeFocused();
   const trigger = page.getByRole("button", { name: /Enlarge/ }).first();
   await trigger.click();
   const dialog = page.getByRole("dialog");
@@ -134,7 +147,7 @@ test("landing gallery enlarges images and links to the separate technical page",
   await page.keyboard.press("Escape");
   await expect(trigger).toBeFocused();
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
-  for (const image of await page.locator(".gallery-preview img").all()) {
+  for (const image of await page.locator(".gc-thumbnail img").all()) {
     await image.scrollIntoViewIfNeeded();
     await expect
       .poll(() =>
