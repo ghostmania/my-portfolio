@@ -1,13 +1,13 @@
 import { useLanguage } from "../../i18n/context";
 import {
   ArrowRight,
-  ArrowUpRight,
   Code2,
   LayoutPanelTop,
   MapPin,
   TrendingUp,
 } from "lucide-react";
 import { metrics, profile } from "../../data/profile";
+import { ContactActions } from "../ContactActions";
 
 const layers = [
   {
@@ -45,12 +45,10 @@ export function Hero() {
             )}
           </p>
           <div className="actions">
-            <a className="button" href="#gallery">
+            <ContactActions primaryLabel="Contact me" />
+            <a className="text-link" href="#gallery">
               {t("Explore projects")}{" "}
-              <ArrowUpRight size={20} aria-hidden="true" />
-            </a>
-            <a className="text-link" href="#contact">
-              {t("Get in touch")} <ArrowRight size={18} aria-hidden="true" />
+              <ArrowRight size={18} aria-hidden="true" />
             </a>
           </div>
           <div className="location">

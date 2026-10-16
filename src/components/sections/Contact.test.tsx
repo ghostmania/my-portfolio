@@ -34,9 +34,10 @@ it("shows honest placeholders when contact details and résumé are missing", ()
 
 it("renders supplied contact destinations and a base-aware real resume link", () => {
   render(<Contact profile={contactProfile} />);
-  expect(
-    screen.getByRole("link", { name: /Start a conversation/ }),
-  ).toHaveAttribute("href", "mailto:test@example.com");
+  expect(screen.getByRole("link", { name: "Email me" })).toHaveAttribute(
+    "href",
+    "mailto:test@example.com",
+  );
   expect(screen.getByRole("link", { name: /GitHub/ })).toHaveAttribute(
     "href",
     contactProfile.github,

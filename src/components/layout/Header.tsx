@@ -1,6 +1,6 @@
 import { useLanguage } from "../../i18n/context";
 import { useEffect, useRef, useState } from "react";
-import { ArrowUpRight, Menu, X } from "lucide-react";
+import { Mail, Menu, X } from "lucide-react";
 import { profile } from "../../data/profile";
 
 export function Header({ technical = false }: { technical?: boolean }) {
@@ -104,11 +104,13 @@ export function Header({ technical = false }: { technical?: boolean }) {
           </button>
         </div>
         <a
-          className="small-button header-cta"
-          href="#contact"
+          className="button header-cta"
+          href={profile.email ? `mailto:${profile.email}` : "#contact"}
+          aria-label={t("Contact me")}
           onClick={() => setOpen(false)}
         >
-          {t("Let's talk")} <ArrowUpRight size={16} aria-hidden="true" />
+          <Mail size={20} aria-hidden="true" />
+          <span className="header-contact-label">{t("Contact me")}</span>
         </a>
         <button
           ref={toggleRef}

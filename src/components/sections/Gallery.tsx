@@ -9,6 +9,7 @@ import {
 import { ArrowLeft, ArrowRight, ArrowUpRight, Expand } from "lucide-react";
 import { galleryImages as images } from "../../data/gallery";
 import { Modal } from "../Modal";
+import { ProjectContact } from "../ProjectContact";
 import "./Gallery.css";
 
 const format = (index: number) => String(index + 1).padStart(2, "0");
@@ -272,6 +273,7 @@ export function Gallery() {
           {t("Swipe to explore · Tap to enlarge")}
         </span>
       </div>
+      <ProjectContact />
       {current && (
         <Modal
           label={current.project}

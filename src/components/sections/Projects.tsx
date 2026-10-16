@@ -3,6 +3,7 @@ import { useState } from "react";
 import { projects, type Project } from "../../data/projects";
 import { ProjectCard } from "../ProjectCard";
 import { ProjectModal } from "../ProjectModal";
+import { ProjectContact } from "../ProjectContact";
 
 export function Projects() {
   const { t } = useLanguage();
@@ -43,6 +44,7 @@ export function Projects() {
             />
           ))}
       </div>
+      <ProjectContact />
       {selected && (
         <ProjectModal project={selected} onClose={() => setSelected(null)} />
       )}

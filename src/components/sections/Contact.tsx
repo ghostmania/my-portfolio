@@ -3,6 +3,7 @@ import { useState } from "react";
 import { ArrowUpRight, Copy, Download } from "lucide-react";
 import type { Profile } from "../../data/profile";
 import { SocialLinks } from "../SocialLinks";
+import { ContactActions } from "../ContactActions";
 
 export function Contact({ profile }: { profile: Profile }) {
   const { t } = useLanguage();
@@ -30,14 +31,14 @@ export function Contact({ profile }: { profile: Profile }) {
         </p>
       </div>
       <div className="contact-links">
+        <ContactActions profile={profile} />
         {profile.email ? (
           <>
-            <a className="contact-row" href={`mailto:${profile.email}`}>
-              <span className="od-field">
-                <span>{t("Start a conversation")}</span>
-                <small>{profile.email}</small>
-              </span>
-              <ArrowUpRight size={20} aria-hidden="true" />
+            <a
+              className="contact-email-address"
+              href={`mailto:${profile.email}`}
+            >
+              {profile.email}
             </a>
             <button className="copy-email text-link" onClick={copyEmail}>
               <Copy size={14} aria-hidden="true" /> {t("Copy email")}
@@ -76,7 +77,7 @@ export function Contact({ profile }: { profile: Profile }) {
             <Download size={20} aria-hidden="true" />
           </div>
         )}
-        <SocialLinks profile={profile} />
+        <SocialLinks profile={profile} hideTelegram />
       </div>
     </section>
   );
