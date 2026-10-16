@@ -10,6 +10,7 @@ import { Services } from "./components/sections/Services";
 import { Gallery } from "./components/sections/Gallery";
 import { Contact } from "./components/sections/Contact";
 import { profile } from "./data/profile";
+import { FloatingContact } from "./components/FloatingContact";
 
 export default function App() {
   const technical = /\/projects(?:\/|\/index.html)?$/.test(
@@ -62,6 +63,7 @@ function Portfolio({ technical }: { technical: boolean }) {
         </div>
       </main>
       <Footer />
+      <FloatingContact />
     </>
   );
 }

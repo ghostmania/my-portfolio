@@ -107,7 +107,9 @@ describe("Portfolio visitor journeys", () => {
   it("shows the owner's contact links and résumé download", () => {
     render(<App />);
     expect(
-      screen.getByRole("link", { name: /Start a conversation/ }),
+      screen
+        .getByRole("region", { name: "Let's build something great." })
+        .querySelector("a[href^='mailto:']"),
     ).toHaveAttribute("href", "mailto:ghostmania2@gmail.com");
     const contact = within(document.getElementById("contact")!);
     expect(contact.getByRole("link", { name: /LinkedIn/ })).toHaveAttribute(
@@ -141,7 +143,11 @@ describe("Portfolio visitor journeys", () => {
     const user = userEvent.setup();
     render(<App />);
     await user.click(screen.getByRole("button", { name: "Open navigation" }));
-    await user.click(screen.getByRole("link", { name: "Let's talk" }));
+    await user.click(
+      within(screen.getByRole("banner")).getByRole("link", {
+        name: "Contact me",
+      }),
+    );
     expect(
       screen.getByRole("button", { name: "Open navigation" }),
     ).toHaveAttribute("aria-expanded", "false");
