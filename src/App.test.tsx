@@ -11,16 +11,29 @@ describe("Portfolio visitor journeys", () => {
   it("presents the whole portfolio on one page, in reading order", () => {
     const { container } = render(<App />);
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "Building digital",
+      "I take web products from first concept to daily use.",
     );
     expect(
       [...container.querySelectorAll("main section[id]")].map(
         (section) => section.id,
       ),
     ).toEqual(["projects", "services", "about", "experience", "contact"]);
+    const hero = within(
+      screen.getByRole("region", { name: /I take web products/ }),
+    );
+    expect(hero.getByRole("link", { name: "View projects" })).toHaveAttribute(
+      "href",
+      "#projects",
+    );
     expect(
-      screen.getByRole("link", { name: /Explore projects/i }),
-    ).toHaveAttribute("href", "#projects");
+      hero.getByRole("img", { name: "Portrait of Igor Borisenko" }),
+    ).toHaveAttribute("src", "/portrait.webp");
+    expect(
+      hero.getByText(
+        "Hi, I'm Igor, a senior full-stack developer based in Batumi, Georgia.",
+      ),
+    ).toBeInTheDocument();
+    expect(hero.getByText("Available for remote work")).toBeInTheDocument();
     expect(
       screen.getByRole("heading", { name: "The right stack for the job." }),
     ).toBeInTheDocument();
@@ -49,9 +62,6 @@ describe("Portfolio visitor journeys", () => {
     expect(screen.getByRole("contentinfo")).toHaveTextContent(
       /© \d{4} Igor Borisenko/,
     );
-    expect(
-      screen.getByRole("heading", { level: 1 }).parentElement,
-    ).toHaveTextContent("Hi, I'm Igor —");
   });
 
   it("titles the five Projects by outcome and never names a product", () => {

@@ -20,6 +20,7 @@ export default defineConfig(({ mode }) => {
         buildStart() {
           const assets = [
             profile.resume,
+            profile.portrait.path,
             ...projects.flatMap((project) =>
               project.screenshots.map((screenshot) => screenshot.path),
             ),

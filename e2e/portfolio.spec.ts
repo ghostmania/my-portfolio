@@ -110,6 +110,26 @@ test("page and open case study pass accessibility checks", async ({ page }) => {
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
 });
 
+test("the portrait loads and the page uses the light theme", async ({
+  page,
+}) => {
+  const portrait = page.getByRole("img", {
+    name: "Portrait of Igor Borisenko",
+  });
+  await expect
+    .poll(() =>
+      portrait.evaluate(
+        (image: HTMLImageElement) => image.complete && image.naturalWidth > 0,
+      ),
+    )
+    .toBe(true);
+  await expect(page.locator("html")).toHaveCSS("color-scheme", "light");
+  await expect(page.locator("meta[name='theme-color']")).toHaveAttribute(
+    "content",
+    "#f5f6f8",
+  );
+});
+
 test("reduced motion disables smooth scrolling", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await expect(page.locator("html")).toHaveCSS("scroll-behavior", "auto");

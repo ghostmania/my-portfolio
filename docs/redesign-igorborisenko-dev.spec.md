@@ -165,7 +165,7 @@ A single light-themed page, branded as `igorborisenko.dev`, that tells a visitor
   - removed: product name, live URL, the "featured" flag, the closed id union, the separate lead-screenshot and gallery fields;
   - added: Outcome headline, Category tag, and one ordered screenshot list whose first item is the lead;
   - kept: id (now any unique string), summary, intro, technology tags, Case study sections, results.
-  The tint is derived from the entry's position, cycling through a fixed palette. Page order is list order.
+    The tint is derived from the entry's position, cycling through a fixed palette. Page order is list order.
 - **Project block.** Renders one Project as a tinted block: Category tag, Outcome headline as the heading, summary, result chips, technology tags, lead screenshot, and the "Read case study" action whose accessible name includes the Outcome headline. The illustrated fallback artwork is removed; a Project always has at least one screenshot.
 - **Case study popup.** Titled and labelled by the Outcome headline. Renders intro, results, sections, every screenshot and the technology tags. The live-link action is removed. The generic popup behaviour (focus handling, Escape, backdrop, scroll lock) is reused unchanged.
 - **Projects section.** Renders every Project in list order on the home page, followed by the existing after-work contact prompt.
@@ -210,7 +210,7 @@ A good test here exercises what a visitor can see and do: headings, accessible n
    - every translatable string of every Project and every Experience entry has a Russian translation;
    - no known product name appears in any site-visible string, in either language, across Project, Experience and profile content and the dictionary;
    - every Project has an id unique in the list and at least one screenshot.
-   The list of known product names lives with this test.
+     The list of known product names lives with this test.
 4. **Build-time asset check.** Already exists; it must follow the new screenshot list so a missing image still fails the build.
 5. **Site metadata.** The existing unit test is updated: the sitemap no longer lists a second page, and the image description uses the full name.
 

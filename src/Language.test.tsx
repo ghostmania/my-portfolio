@@ -27,7 +27,7 @@ describe("Language selection", () => {
       }),
     ).toBeInTheDocument();
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "Создаю цифровые",
+      "Довожу веб-продукты",
     );
     view.unmount();
     render(<App />);
@@ -44,7 +44,7 @@ describe("Language selection", () => {
     await user.click(screen.getByRole("button", { name: "EN — English" }));
     expect(document.documentElement).toHaveAttribute("lang", "en");
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "Building digital",
+      "I take web products",
     );
   });
 
@@ -52,7 +52,7 @@ describe("Language selection", () => {
     localStorage.setItem("portfolio-language", "de");
     render(<App />);
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "Building digital",
+      "I take web products",
     );
   });
 
@@ -66,7 +66,7 @@ describe("Language selection", () => {
     render(<App />);
     await userEvent.click(screen.getByRole("button", { name: "RU — Русский" }));
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "Создаю цифровые",
+      "Довожу веб-продукты",
     );
   });
 });

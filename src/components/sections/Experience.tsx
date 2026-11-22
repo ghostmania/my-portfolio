@@ -11,7 +11,6 @@ export function Experience() {
     >
       <div className="section-heading">
         <div>
-          <span className="eyebrow">{t("The journey so far")}</span>
           <h2 id="experience-heading">{t("Built on experience.")}</h2>
         </div>
       </div>

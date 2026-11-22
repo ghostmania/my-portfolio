@@ -19,7 +19,6 @@ export function Contact({ profile }: { profile: Profile }) {
   return (
     <section id="contact" className="contact" aria-labelledby="contact-heading">
       <div>
-        <span className="eyebrow">{t("Have something in mind?")}</span>
         <h2 id="contact-heading">
           {t("Let's build")} <br />
           <span>{t("something great.")}</span>

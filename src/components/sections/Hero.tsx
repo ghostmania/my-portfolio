@@ -1,51 +1,53 @@
 import { useLanguage } from "../../i18n/context";
-import { ArrowRight, MapPin } from "lucide-react";
 import { metrics, profile } from "../../data/profile";
 import { ContactActions } from "../ContactActions";
 
 export function Hero() {
   const { t } = useLanguage();
   return (
-    <>
-      <section className="hero" aria-labelledby="hero-heading">
-        <div>
-          <div className="availability">{t(profile.availability)}</div>
-          <h1 id="hero-heading">
-            {t("Building digital")} <br /> {t("products that")} <br />
-            <em>{t("make an impact.")}</em>
-          </h1>
-          <p className="hero-description">
-            {t("Hi, I'm")} <strong>{t(profile.firstName)}</strong>{" "}
-            {t(
-              "— a Senior Full-stack Developer with 8+ years of experience. I turn complex ideas into reliable web experiences, from the first sketch to the final deployment.",
-            )}
-          </p>
-          <div className="actions">
-            <ContactActions primaryLabel="Contact me" />
-            <a className="text-link" href="#projects">
-              {t("Explore projects")}{" "}
-              <ArrowRight size={18} aria-hidden="true" />
-            </a>
-          </div>
-          <div className="location">
-            <MapPin size={14} aria-hidden="true" />
-            {t(profile.location)}
-            <span aria-hidden="true">·</span>
-            {profile.timezone}
-          </div>
+    <section className="hero" aria-labelledby="hero-heading">
+      <div className="hero-copy">
+        <p className="hero-intro">
+          {t(
+            "Hi, I'm {name}, a senior full-stack developer based in {location}.",
+            { name: t(profile.firstName), location: t(profile.location) },
+          )}
+        </p>
+        <h1 id="hero-heading">
+          {t("I take web products from first concept to daily use.")}
+        </h1>
+        <p className="hero-description">
+          {t(
+            "Eight years across Angular, React and Node.js. I build the interface, the services behind it and the delivery process that keeps it shipping.",
+          )}
+        </p>
+        <div className="actions">
+          <a className="button" href="#projects">
+            {t("View projects")}
+          </a>
+          <ContactActions />
         </div>
-      </section>
-      <div className="metrics" aria-label={t("Experience at a glance")}>
+        <p className="availability">
+          <span>{t(profile.availability)}</span>
+          <span>{profile.timezone}</span>
+        </p>
+      </div>
+      <img
+        className="portrait"
+        src={`${import.meta.env.BASE_URL}${profile.portrait.path}`}
+        alt={t(profile.portrait.alt)}
+        width={profile.portrait.width}
+        height={profile.portrait.height}
+        decoding="async"
+      />
+      <dl className="metrics">
         {metrics.map((metric) => (
-          <div className="metric od-stat" key={metric.label}>
-            <b>
-              {metric.value}
-              <span>+</span>
-            </b>
-            <small>{t(metric.label)}</small>
+          <div className="metric" key={metric.label}>
+            <dt>{t(metric.label)}</dt>
+            <dd>{metric.value}+</dd>
           </div>
         ))}
-      </div>
-    </>
+      </dl>
+    </section>
   );
 }

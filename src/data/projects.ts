@@ -74,25 +74,25 @@ export const projects: readonly Project[] = [
     ],
     screenshots: [
       {
-        path: "projects/hochzeit/vendor-search.png",
+        path: "projects/wedding-platform/vendor-search.png",
         alt: "Wedding vendor search with venue cards, ratings and brochure requests",
         width: 3568,
         height: 1952,
       },
       {
-        path: "projects/hochzeit/couple-onboarding.png",
+        path: "projects/wedding-platform/couple-onboarding.png",
         alt: "Onboarding screen asking couples about their wedding-planning stage",
         width: 1874,
         height: 911,
       },
       {
-        path: "projects/hochzeit/vendor-galleries.png",
+        path: "projects/wedding-platform/vendor-galleries.png",
         alt: "Vendor photo-gallery management with publication status and wedding collections",
         width: 3588,
         height: 1964,
       },
       {
-        path: "projects/hochzeit/vendor-profile.png",
+        path: "projects/wedding-platform/vendor-profile.png",
         alt: "Vendor profile editor with service pricing, experience and additional offerings",
         width: 3572,
         height: 1964,
@@ -137,7 +137,7 @@ export const projects: readonly Project[] = [
     ],
     screenshots: [
       {
-        path: "projects/parametric/marketplace-home.png",
+        path: "projects/construction-marketplace/marketplace-home.png",
         alt: "Construction-materials marketplace homepage with product search and categories",
         width: 1557,
         height: 581,
@@ -175,13 +175,13 @@ export const projects: readonly Project[] = [
     results: [{ value: "4.5★", label: "App-store rating" }],
     screenshots: [
       {
-        path: "projects/pyjam/interactive-stream.png",
+        path: "projects/social-app/interactive-stream.png",
         alt: "Mobile streaming interface with directional controls and an onboarding hint",
         width: 816,
         height: 1042,
       },
       {
-        path: "projects/pyjam/social-app-home.png",
+        path: "projects/social-app/social-app-home.png",
         alt: "Social-app landing page introducing live streams and mobile apps",
         width: 2848,
         height: 1578,
@@ -214,7 +214,7 @@ export const projects: readonly Project[] = [
     results: [{ value: "40%", label: "Faster loading" }],
     screenshots: [
       {
-        path: "projects/wildfood/plant-catalog.png",
+        path: "projects/plant-catalogue/plant-catalog.png",
         alt: "Plant catalogue with browsing cards and a detailed African Olive plant profile",
         width: 1936,
         height: 954,
@@ -238,7 +238,7 @@ export const projects: readonly Project[] = [
     results: [],
     screenshots: [
       {
-        path: "projects/heldyn/home-care-homepage.png",
+        path: "projects/home-care/home-care-homepage.png",
         alt: "Home-care services homepage with a caregiver and an older woman",
         width: 2814,
         height: 1958,

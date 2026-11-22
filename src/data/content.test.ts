@@ -30,6 +30,7 @@ const profileText = [
   profile.firstName,
   profile.location,
   profile.availability,
+  profile.portrait.alt,
   ...metrics.map((metric) => metric.label),
 ];
 const siteText = [...projectText, ...experienceText, ...profileText];

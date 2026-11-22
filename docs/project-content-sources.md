@@ -1,5 +1,7 @@
 # Project content sources
 
+**Hiding rule.** Product names are kept off the site for style reasons: Projects are titled by Outcome headline and Experience entries by kind of product. The names below identify sources for maintainers only. The Résumé is the only published place they appear. Live product links are not shown. Screenshots are unedited, so a logo may be visible inside an image; the lead screenshot of each Project is the one where it is least prominent.
+
 Project copy and employment dates come from the owner-supplied `public/resume.pdf`, read on 2026-10-15. Screenshots were supplied by the owner under `public/projects/`. Public links are taken directly from the résumé; current availability has not been checked.
 
 - Hochzeit.click: Angular, Node.js, Firebase Authentication and Firestore; end-to-end delivery, reusable UI, booking/payment integration, performance and CI/CD. The résumé supplies August 2019–August 2026, 500+ daily active users, 50+ reusable components, 30% faster feature development, and 4.0s → 1.5s initial load. Stripe and BigQuery are additionally supported by the original project brief.
@@ -11,8 +13,8 @@ Project copy and employment dates come from the owner-supplied `public/resume.pd
 Image decisions:
 
 - Screenshot contents were visually reviewed; descriptive `.png` filenames replace timestamps or extensionless names. Pixel contents are unchanged.
-- Hochzeit onboarding is the feature preview; vendor search, galleries and profile editing illustrate the case study.
-- Parametric homepage, Pyjam landing/interactive streaming view and Wild Food plant catalogue are used for their respective projects.
+- Hochzeit vendor search is the lead screenshot; onboarding, galleries and profile editing illustrate the case study.
+- Parametric homepage, Pyjam interactive streaming view (lead) and landing page, and Wild Food plant catalogue are used for their respective projects.
 - Wild Food's map screenshot has a visible “For development purposes only” overlay. It is retained as source material but not selected for the case study.
 - Two images with customer information were moved into `reference-assets/private/`, which is ignored by Git and is outside Vite's public directory: the Hochzeit customer list and older Pyjam customer/stream screen. They are not bundled or published. Originals are preserved locally.
 

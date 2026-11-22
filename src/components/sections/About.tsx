@@ -7,7 +7,6 @@ export function About() {
     <section id="about" className="section" aria-labelledby="about-heading">
       <div className="about">
         <div>
-          <span className="eyebrow">{t("A little about me")}</span>
           <h2 id="about-heading">
             {t("More than just")} <br /> {t("writing code.")}
           </h2>
@@ -23,11 +22,11 @@ export function About() {
               "From architecture to deployment, I take ownership of the whole picture. I care about the details that make a product fast, maintainable, and genuinely useful.",
             )}
           </p>
-          <div className="principles">
-            <span>{t("↗ End-to-end ownership")}</span>
-            <span>{t("↗ Clear communication")}</span>
-            <span>{t("↗ Fluent English")}</span>
-          </div>
+          <ul className="principles">
+            <li>{t("End-to-end ownership")}</li>
+            <li>{t("Clear communication")}</li>
+            <li>{t("Fluent English")}</li>
+          </ul>
         </div>
       </div>
       <div className="about-skills">

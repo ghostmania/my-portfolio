@@ -12,9 +12,9 @@ describe("Contact discovery", () => {
   it("offers direct email and Telegram actions at the start, after work, and before the résumé", () => {
     render(<App />);
     const hero = within(
-      screen.getByRole("region", { name: /Building digital/ }),
+      screen.getByRole("region", { name: /I take web products/ }),
     );
-    expect(hero.getByRole("link", { name: "Contact me" })).toHaveAttribute(
+    expect(hero.getByRole("link", { name: "Email me" })).toHaveAttribute(
       "href",
       "mailto:ghostmania2@gmail.com",
     );

@@ -16,7 +16,6 @@ export function Projects() {
     >
       <div className="section-heading">
         <div>
-          <span className="eyebrow">{t("Selected work")}</span>
           <h2 id="projects-heading">{t("Ideas brought to life.")}</h2>
         </div>
         <p>

@@ -14,6 +14,13 @@ export interface Profile {
   readonly telegram: string | null;
   /** Path relative to public/, without a leading slash. Supply the real file first. */
   readonly resume: string | null;
+  /** The Portrait shown in the hero. Path relative to public/. */
+  readonly portrait: {
+    path: string;
+    alt: string;
+    width: number;
+    height: number;
+  };
 }
 
 export const profile: Profile = {
@@ -28,6 +35,12 @@ export const profile: Profile = {
   github: "https://github.com/ghostmania",
   telegram: "https://t.me/ghostmania2",
   resume: "resume.pdf",
+  portrait: {
+    path: "portrait.webp",
+    alt: "Portrait of Igor Borisenko",
+    width: 720,
+    height: 720,
+  },
 };
 
 export const metrics = [

@@ -14,6 +14,7 @@ const contactProfile = {
   github: "https://github.com/test",
   telegram: "https://t.me/test",
   resume: "resume.pdf",
+  portrait: { path: "portrait.webp", alt: "Portrait", width: 1, height: 1 },
 };
 
 it("shows honest placeholders when contact details and résumé are missing", () => {

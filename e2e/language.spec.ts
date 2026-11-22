@@ -14,7 +14,7 @@ test("Russian works across the page, persists on reload, and switches back to En
     "Игорь Борисенко — Senior Full-stack разработчик",
   );
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    "Создаю цифровые",
+    "Довожу веб-продукты",
   );
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
   expect(
@@ -49,7 +49,7 @@ test("Russian works across the page, persists on reload, and switches back to En
   ).toBe(true);
   await page.getByRole("button", { name: "EN — English" }).click();
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    "Building digital",
+    "I take web products",
   );
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
   await page.reload();
