@@ -49,7 +49,7 @@ There is no database. All content is typed files in the repository.
 2. Add one entry to the list in `src/data/projects.ts`. The first screenshot is the one shown on the page. The position in the list is the position on the page, and the tint is assigned automatically.
 3. Add the Russian text for the entry's strings to `src/i18n/ru.json`.
 
-Then run `npm test`. It fails if a string has no Russian translation, if an id repeats, if a Project has no screenshot, or if a product name appears. When the new product has a name, add it to the list in `src/data/content.test.ts` so the check covers it. `npm run build` fails if a screenshot path does not exist.
+Then run `npm test`. It fails if a Project or Experience string has no Russian translation, if an id repeats, if a Project has no screenshot, or if a product name appears. When the new product has a name, add it to the list in `src/data/content.test.ts` so the check covers it. `npm run build` fails if a screenshot path does not exist.
 
 ### Other assets
 
@@ -100,20 +100,19 @@ VITE_BASE_PATH=/my-portfolio/ npm run test:e2e
 
 The example domain is only for testing metadata. For the normal local preview, rebuild with `npm run build`. You may also copy `.env.example` to `.env.local` and fill in your actual values. All values shipped in a static site are public; no secrets are needed.
 
-For a custom domain, configure it in **Settings → Pages**, set the provider's DNS records as GitHub instructs, and enable **Enforce HTTPS**. Use `/` for the base and your domain for `SITE_URL`. If managing the domain through a `CNAME` file, add only the verified hostname to `public/CNAME`. No SPA fallback is needed: both HTML pages are emitted by Vite; section navigation uses anchors and project details use dialogs.
+For a custom domain, configure it in **Settings → Pages**, set the provider's DNS records as GitHub instructs, and enable **Enforce HTTPS**. Use `/` for the base and your domain for `SITE_URL`. If managing the domain through a `CNAME` file, add only the verified hostname to `public/CNAME`. No SPA fallback is needed: the site is one HTML page; section navigation uses anchors and Case studies open in dialogs.
 
 To roll back, revert the problematic commit on `main` or re-run a known-good workflow with its original source. The workflow publishes the verified build when changes are pushed to main.
 
 ## Owner inputs before publishing
 
-- Confirm public name, location, availability, and the supplied experience metrics.
-- Supply any missing public project links.
+- Confirm location, availability, and the supplied experience metrics.
 - Review the résumé-based case studies and clarify the Wild Food migration version/date. Heldyn still needs details because it is absent from the résumé.
-- Set up the repository and, optionally, a custom domain.
+- Buy `igorborisenko.dev`, move hosting, and redirect the old address.
 
-## ECC workflow
+## History
 
-Built using the installed `ecc@ecc` 2.2.3 skills: search-first, coding-standards, frontend-patterns, tdd-workflow, deployment-patterns and verification-loop. Cache validation confirmed all manifest references. The plan is in `docs/implementation-plan.md`; test evidence is in `docs/verification.md`. No Git repository existed at intake; the repository was initialized for the first release.
+The first release was built using the installed `ecc@ecc` 2.2.3 skills: search-first, coding-standards, frontend-patterns, tdd-workflow, deployment-patterns and verification-loop. Cache validation confirmed all manifest references. The plan is in `docs/implementation-plan.md`; test evidence is in `docs/verification.md`. No Git repository existed at intake; the repository was initialized for the first release.
 
 ## References
 

@@ -21,7 +21,7 @@ The long-form account of one Project: the challenge, Igor's role, the solution a
 _Avoid_: Project overview, project details
 
 **Experience entry**:
-One period of Igor's working history, titled by the role and the kind of product, never by a product name.
+One period of Igor's working history, titled by the kind of product and never by a product name. An entry for a plain employer that is not one of Igor's Projects keeps the employer's real name.
 _Avoid_: Job, position, employer entry
 
 **Résumé**:

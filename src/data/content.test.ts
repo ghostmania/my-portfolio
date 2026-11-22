@@ -5,7 +5,8 @@ import { projects } from "./projects";
 
 // Product names stay in the résumé only. Add a new product's name here when
 // its Project is added, so it can never slip into site text.
-const productNames = /hochzeit|parametric|pyjam|heldyn|wild\s?food/i;
+const productNames =
+  /hochzeit|parametric|pyjam|heldyn|wild[\s-]?food|хохцайт|параметрик|пайджем|хелдин/i;
 
 const dictionary = ru as Record<string, string>;
 
