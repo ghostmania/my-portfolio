@@ -76,8 +76,7 @@ describe("Contact discovery", () => {
     expect(trigger).toHaveAttribute("aria-expanded", "false");
   });
 
-  it("provides the same translated contact options on the technical page", async () => {
-    window.history.replaceState({}, "", "/projects/");
+  it("provides the same contact options in Russian", async () => {
     const user = userEvent.setup();
     render(<App />);
     await user.click(screen.getByRole("button", { name: "RU — Русский" }));

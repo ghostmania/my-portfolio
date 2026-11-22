@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("./projects/");
+  await page.goto("./");
 });
 
 test("all sections, fonts and assets load without errors or horizontal overflow", async ({
@@ -110,72 +110,4 @@ test("page and open case study pass accessibility checks", async ({ page }) => {
 test("reduced motion disables smooth scrolling", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await expect(page.locator("html")).toHaveCSS("scroll-behavior", "auto");
-});
-
-test("landing gallery enlarges images and links to the separate technical page", async ({
-  page,
-}, testInfo) => {
-  await page.goto("./");
-  await expect(
-    page.locator("#projects, #about, #skills, #experience"),
-  ).toHaveCount(0);
-  await expect(page.locator("main section[id]")).toHaveCount(3);
-  const carousel = page.getByRole("group", { name: "From idea to screen." });
-  const thumbnails = carousel.getByRole("button", { name: /Show screenshot/ });
-  await expect(thumbnails).toHaveCount(9);
-  await carousel.getByRole("button", { name: "Previous screenshot" }).click();
-  await expect(thumbnails.last()).toHaveAttribute("aria-current", "true");
-  await carousel.getByRole("button", { name: "Next screenshot" }).click();
-  await expect(thumbnails.first()).toHaveAttribute("aria-current", "true");
-  await thumbnails.nth(6).click();
-  await expect(carousel.getByRole("heading", { name: "Pyjam" })).toBeVisible();
-  await page.keyboard.press("End");
-  await expect(thumbnails.last()).toBeFocused();
-  await page.keyboard.press("Home");
-  await expect(thumbnails.first()).toBeFocused();
-  const trigger = page.getByRole("button", { name: /Enlarge/ }).first();
-  await trigger.click();
-  const dialog = page.getByRole("dialog");
-  const image = dialog.getByRole("img");
-  await expect(image).toBeVisible();
-  const original = await image.getAttribute("src");
-  await page.keyboard.press("ArrowRight");
-  await expect(image).not.toHaveAttribute("src", original!);
-  await page.keyboard.press("ArrowLeft");
-  await expect(image).toHaveAttribute("src", original!);
-  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
-  await page.keyboard.press("Escape");
-  await expect(trigger).toBeFocused();
-  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
-  for (const image of await page.locator(".gc-thumbnail img").all()) {
-    await image.scrollIntoViewIfNeeded();
-    await expect
-      .poll(() =>
-        image.evaluate(
-          (el: HTMLImageElement) => el.complete && el.naturalWidth > 0,
-        ),
-      )
-      .toBe(true);
-  }
-  expect(
-    await page.evaluate(
-      () => document.documentElement.scrollWidth <= innerWidth,
-    ),
-  ).toBe(true);
-  await page.screenshot({
-    path: `test-results/${testInfo.project.name}-landing.png`,
-    fullPage: true,
-  });
-  await page
-    .getByRole("link", { name: "Explore the technical details" })
-    .click();
-  await expect(page).toHaveURL(/projects\/$/);
-  await page.reload();
-  await expect(
-    page.getByRole("heading", { name: "Projects & engineering." }),
-  ).toBeVisible();
-  await page.getByRole("link", { name: "Igor home" }).click();
-  await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    "Building digital",
-  );
 });

@@ -850,7 +850,7 @@ p {
   border-top: 1px solid var(--line);
   padding-top: 24px;
 }
-.skill-column h3 {
+.skill-column h4 {
   font-size: 18px;
   margin-bottom: 20px;
 }
@@ -1623,4 +1623,14 @@ dialog.image-viewer {
   .viewer-image {
     padding: 0 8px;
   }
+}
+.about-skills {
+  margin-top: 72px;
+}
+.about-skills > h3 {
+  font-size: 24px;
+  margin-bottom: 32px;
+}
+.hero {
+  grid-template-columns: minmax(0, 1fr);
 }

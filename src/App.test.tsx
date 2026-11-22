@@ -3,10 +3,9 @@ import userEvent from "@testing-library/user-event";
 import App from "./App";
 
 describe("Portfolio visitor journeys", () => {
-  beforeEach(() => window.history.replaceState({}, "", "/projects/"));
+  beforeEach(() => window.history.replaceState({}, "", "/"));
 
-  it("keeps the landing page focused on services and visual work", () => {
-    window.history.replaceState({}, "", "/");
+  it("presents the whole portfolio on one page, in reading order", () => {
     const { container } = render(<App />);
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
       "Building digital",
@@ -15,35 +14,25 @@ describe("Portfolio visitor journeys", () => {
       [...container.querySelectorAll("main section[id]")].map(
         (section) => section.id,
       ),
-    ).toEqual(["services", "gallery", "contact"]);
+    ).toEqual(["projects", "services", "about", "contact"]);
     expect(
       screen.getByRole("link", { name: /Explore projects/i }),
-    ).toHaveAttribute("href", "#gallery");
-  });
-
-  it("opens an enlarged gallery image and restores focus", async () => {
-    window.history.replaceState({}, "", "/");
-    const user = userEvent.setup();
-    render(<App />);
-    const trigger = screen.getAllByRole("button", { name: /Enlarge/ })[0];
-    await user.click(trigger);
-    const dialog = screen.getByRole("dialog");
-    expect(within(dialog).getByRole("img")).toBeInTheDocument();
-    await user.click(
-      within(dialog).getByRole("button", { name: "Next image" }),
-    );
-    await user.click(
-      within(dialog).getByRole("button", { name: "Close dialog" }),
-    );
-    expect(trigger).toHaveFocus();
-  });
-
-  it("keeps projects, about and skills on the technical page", () => {
-    const { container } = render(<App />);
+    ).toHaveAttribute("href", "#projects");
     expect(
-      [...container.querySelectorAll("main section[id]")].map((el) => el.id),
-    ).toEqual(["projects", "about", "skills", "contact"]);
-    expect(screen.queryByText("Built on experience.")).not.toBeInTheDocument();
+      screen.getByRole("heading", { name: "The right stack for the job." }),
+    ).toBeInTheDocument();
+    expect(screen.queryByText("From idea to screen.")).not.toBeInTheDocument();
+    expect(
+      screen.queryByLabelText("My approach to product development"),
+    ).not.toBeInTheDocument();
+  });
+
+  it("links the header navigation to sections of the same page", () => {
+    render(<App />);
+    const navigation = within(screen.getByRole("navigation"));
+    expect(
+      navigation.getAllByRole("link").map((link) => link.getAttribute("href")),
+    ).toEqual(["#projects", "#services", "#about", "#contact"]);
   });
 
   it("opens the featured case study and restores focus when closed", async () => {
