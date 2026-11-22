@@ -4,12 +4,15 @@ import { X } from "lucide-react";
 
 export function Modal({
   label,
+  caption = label,
   onClose,
   children,
   className,
   onKeyDown,
 }: {
   label: string;
+  /** Short text shown in the dialog bar. Defaults to the label. */
+  caption?: string;
   onClose: () => void;
   children: ReactNode;
   className?: string;
@@ -73,7 +76,7 @@ export function Modal({
       }}
     >
       <div className="dialog-header">
-        <span>{label}</span>
+        <span>{caption}</span>
         <button
           ref={closeRef}
           className="close-dialog"

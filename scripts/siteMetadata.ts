@@ -34,7 +34,8 @@ export function siteMetadata(siteUrl: string): {
         tag: "meta",
         attrs: {
           property: "og:image:alt",
-          content: "Igor — building digital products that make an impact.",
+          content:
+            "Igor Borisenko — Senior Full-stack Developer, igorborisenko.dev",
         },
       },
       { tag: "meta", attrs: { name: "twitter:image", content: image } },

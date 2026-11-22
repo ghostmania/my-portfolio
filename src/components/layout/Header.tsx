@@ -2,10 +2,15 @@ import { useLanguage } from "../../i18n/context";
 import { useEffect, useRef, useState } from "react";
 import { Mail, Menu, X } from "lucide-react";
 import { profile } from "../../data/profile";
+import { Wordmark } from "../Wordmark";
 
-const navigation = ["Projects", "Services", "About", "Contact"].map(
-  (label) => ({ label, href: "#" + label.toLowerCase() }),
-);
+const navigation = [
+  "Projects",
+  "Services",
+  "About",
+  "Experience",
+  "Contact",
+].map((label) => ({ label, href: "#" + label.toLowerCase() }));
 
 export function Header() {
   const { t, language, setLanguage } = useLanguage();
@@ -42,14 +47,7 @@ export function Header() {
   return (
     <header className="site-header">
       <div className="wrap header-inner">
-        <a
-          className="wordmark"
-          href="#top"
-          aria-label={t("{name} home", { name: t(profile.name) })}
-        >
-          {t(profile.name)}
-          <span>.</span>
-        </a>
+        <Wordmark />
         <nav
           id="navigation"
           className={`navigation${open ? " open" : ""}`}

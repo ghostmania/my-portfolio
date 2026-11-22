@@ -20,6 +20,14 @@ it("uses a normalized project subpath for canonical, social image and sitemap", 
   expect(metadata.sitemap).toContain(
     "<loc>https://test.github.io/portfolio/</loc>",
   );
+  expect(metadata.tags).toContainEqual({
+    tag: "meta",
+    attrs: {
+      property: "og:image:alt",
+      content:
+        "Igor Borisenko — Senior Full-stack Developer, igorborisenko.dev",
+    },
+  });
   expect(metadata.sitemap.match(/<loc>/g)).toHaveLength(1);
   expect(metadata.robots).toContain(
     "Sitemap: https://test.github.io/portfolio/sitemap.xml",

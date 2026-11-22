@@ -15,7 +15,7 @@ export function Hero() {
             <em>{t("make an impact.")}</em>
           </h1>
           <p className="hero-description">
-            {t("Hi, I'm")} <strong>{t(profile.name)}</strong>{" "}
+            {t("Hi, I'm")} <strong>{t(profile.firstName)}</strong>{" "}
             {t(
               "— a Senior Full-stack Developer with 8+ years of experience. I turn complex ideas into reliable web experiences, from the first sketch to the final deployment.",
             )}

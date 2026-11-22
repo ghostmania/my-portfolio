@@ -18,6 +18,14 @@ describe("Language selection", () => {
     const view = render(<App />);
     await user.click(screen.getByRole("button", { name: "RU — Русский" }));
     expect(document.documentElement).toHaveAttribute("lang", "ru");
+    expect(document.title).toBe(
+      "Игорь Борисенко — Senior Full-stack разработчик",
+    );
+    expect(
+      screen.getByRole("heading", {
+        name: "Платформа для планирования свадеб",
+      }),
+    ).toBeInTheDocument();
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
       "Создаю цифровые",
     );
@@ -27,7 +35,9 @@ describe("Language selection", () => {
       screen.getByRole("heading", { name: "Идеи, ставшие продуктами." }),
     ).toBeInTheDocument();
     await user.click(
-      screen.getByRole("button", { name: "Обзор проекта: Hochzeit.click" }),
+      screen.getByRole("button", {
+        name: "Читать кейс: Платформа для планирования свадеб: от первой идеи до 500+ пользователей в день",
+      }),
     );
     expect(screen.getByText("Решение и архитектура")).toBeInTheDocument();
     await user.click(screen.getByRole("button", { name: "Закрыть окно" }));

@@ -1,6 +1,9 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
+const weddingPlatform =
+  "A wedding-planning platform taken from first concept to 500+ daily users";
+
 test.beforeEach(async ({ page }) => {
   await page.goto("./");
 });
@@ -15,7 +18,7 @@ test("all sections, fonts and assets load without errors or horizontal overflow"
       () => document.documentElement.scrollWidth <= window.innerWidth,
     ),
   ).toBe(true);
-  await expect(page.locator("main section[id]")).toHaveCount(4);
+  await expect(page.locator("main section[id]")).toHaveCount(5);
   const screenshots = page.locator(".project-screenshot");
   await expect(screenshots).toHaveCount(5);
   for (const screenshot of await screenshots.all()) {
@@ -42,10 +45,10 @@ test("case study traps focus, closes with Escape and restores the trigger", asyn
   page,
 }) => {
   const trigger = page.getByRole("button", {
-    name: "Project overview: Hochzeit.click",
+    name: `Read case study: ${weddingPlatform}`,
   });
   await trigger.click();
-  const dialog = page.getByRole("dialog", { name: "Hochzeit.click" });
+  const dialog = page.getByRole("dialog", { name: weddingPlatform });
   await expect(dialog).toBeVisible();
   await expect(
     dialog.getByRole("button", { name: "Close dialog" }),
@@ -69,10 +72,10 @@ test("backdrop closes dialog and inside clicks keep it open", async ({
   page,
 }) => {
   await page
-    .getByRole("button", { name: "Project overview: Hochzeit.click" })
+    .getByRole("button", { name: `Read case study: ${weddingPlatform}` })
     .click();
   const dialog = page.getByRole("dialog");
-  await dialog.getByRole("heading", { name: "Hochzeit.click" }).click();
+  await dialog.getByRole("heading", { name: weddingPlatform }).click();
   await expect(dialog).toBeVisible();
   await page.mouse.click(4, 4);
   await expect(dialog).not.toBeVisible();
@@ -102,7 +105,7 @@ test("navigation reaches contact and the mobile menu supports Escape", async ({
 test("page and open case study pass accessibility checks", async ({ page }) => {
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
   await page
-    .getByRole("button", { name: "Project overview: Hochzeit.click" })
+    .getByRole("button", { name: `Read case study: ${weddingPlatform}` })
     .click();
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
 });

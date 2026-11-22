@@ -13,9 +13,9 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useState<Language>(initialLanguage);
   useEffect(() => {
     document.documentElement.lang = language;
-    const title = "Igor — Senior Full-stack Developer";
+    const title = "Igor Borisenko — Senior Full-stack Developer";
     const description =
-      "Igor — Senior Full-stack Developer with 8+ years of experience. Reliable web applications, thoughtful architecture, and end-to-end product development.";
+      "Igor Borisenko — Senior Full-stack Developer with 8+ years of experience. Reliable web applications, thoughtful architecture, and end-to-end product development.";
     document.title = translate(language, title);
     const descriptions = [
       ["meta[name='description']", description],

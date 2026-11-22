@@ -4,6 +4,8 @@ import { Contact } from "./Contact";
 
 const contactProfile = {
   name: "Test owner",
+  firstName: "Test",
+  domain: "example.dev",
   location: "Test location",
   timezone: "UTC+4",
   availability: "Available for remote work",

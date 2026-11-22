@@ -1634,3 +1634,47 @@ dialog.image-viewer {
 .hero {
   grid-template-columns: minmax(0, 1fr);
 }
+.project-stack {
+  display: grid;
+  gap: 24px;
+}
+.project-block {
+  display: grid;
+  gap: 32px;
+  padding: 32px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+}
+.project-block h3 {
+  font-size: 28px;
+  margin: 8px 0 16px;
+}
+.project-category {
+  font: 12px var(--mono);
+  color: var(--accent);
+}
+.project-block h3,
+.dialog-content h2 {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 767px) {
+  .site-header .wordmark {
+    font-size: 17px;
+  }
+  .project-block {
+    padding: 20px;
+  }
+  .project-block h3 {
+    font-size: 22px;
+  }
+}
+@media (max-width: 359px) {
+  .site-header .wordmark {
+    font-size: 14px;
+  }
+}
+.project-stack,
+.project-block {
+  grid-template-columns: minmax(0, 1fr);
+}

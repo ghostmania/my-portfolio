@@ -20,9 +20,8 @@ export default defineConfig(({ mode }) => {
         buildStart() {
           const assets = [
             profile.resume,
-            ...projects.map((project) => project.screenshot?.path),
             ...projects.flatMap((project) =>
-              (project.gallery ?? []).map((screenshot) => screenshot.path),
+              project.screenshots.map((screenshot) => screenshot.path),
             ),
           ].filter((path): path is string => !!path);
           for (const asset of assets) {

@@ -1,5 +1,10 @@
 export interface Profile {
+  /** Full public name, used in titles, metadata and the copyright line. */
   readonly name: string;
+  /** Used where Igor speaks in the first person. */
+  readonly firstName: string;
+  /** The Wordmark. */
+  readonly domain: string;
   readonly location: string;
   readonly timezone: string;
   readonly availability: string;
@@ -12,7 +17,9 @@ export interface Profile {
 }
 
 export const profile: Profile = {
-  name: "Igor", // TODO: confirm preferred public name before adding a surname.
+  name: "Igor Borisenko",
+  firstName: "Igor",
+  domain: "igorborisenko.dev",
   location: "Batumi, Georgia",
   timezone: "UTC+4",
   availability: "Available for remote work",
@@ -26,5 +33,5 @@ export const profile: Profile = {
 export const metrics = [
   { value: "8", label: "Years of experience" },
   { value: "15", label: "Projects delivered" },
-  { value: "500", label: "Daily users on Hochzeit.click" },
+  { value: "500", label: "Daily users on a wedding platform" },
 ] as const;

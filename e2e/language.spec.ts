@@ -10,7 +10,9 @@ test("Russian works across the page, persists on reload, and switches back to En
   await russian.click();
   await expect(russian).toHaveAttribute("aria-pressed", "true");
   await expect(page.locator("html")).toHaveAttribute("lang", "ru");
-  await expect(page).toHaveTitle("Игорь — Senior Full-stack разработчик");
+  await expect(page).toHaveTitle(
+    "Игорь Борисенко — Senior Full-stack разработчик",
+  );
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
     "Создаю цифровые",
   );
@@ -31,7 +33,9 @@ test("Russian works across the page, persists on reload, and switches back to En
   await page.reload();
   await expect(page.locator("html")).toHaveAttribute("lang", "ru");
   await page
-    .getByRole("button", { name: "Обзор проекта: Hochzeit.click" })
+    .getByRole("button", {
+      name: "Читать кейс: Платформа для планирования свадеб: от первой идеи до 500+ пользователей в день",
+    })
     .click();
   await expect(
     page.getByRole("heading", { name: "Решение и архитектура" }),
