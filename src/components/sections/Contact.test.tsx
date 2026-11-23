@@ -49,7 +49,7 @@ it("renders supplied contact destinations and a base-aware real resume link", ()
     "rel",
     "noopener noreferrer",
   );
-  expect(screen.getByRole("link", { name: /Download résumé/ })).toHaveAttribute(
+  expect(screen.getByRole("link", { name: /Download resume/ })).toHaveAttribute(
     "href",
     "/resume.pdf",
   );

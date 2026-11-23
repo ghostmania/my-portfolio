@@ -59,9 +59,9 @@ describe("Portfolio visitor journeys", () => {
     expect(wordmark).toHaveTextContent("igorborisenko.dev");
     expect(wordmark).toHaveAttribute("href", "#top");
     expect(document.title).toBe("Igor Borisenko — Senior Full-stack Developer");
-    expect(screen.getByRole("contentinfo")).toHaveTextContent(
-      /© \d{4} Igor Borisenko/,
-    );
+    const footer = screen.getByRole("contentinfo");
+    expect(footer).toHaveTextContent(/© \d{4}/);
+    expect(footer).not.toHaveTextContent(/Igor Borisenko|Crafted/);
   });
 
   it("titles the five Projects by outcome and never names a product", () => {
@@ -129,6 +129,20 @@ describe("Portfolio visitor journeys", () => {
     expect(trigger).toHaveFocus();
   });
 
+  it("opens the case study from anywhere on the Project block", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    const trigger = screen.getByRole("button", {
+      name: `Read case study: ${weddingPlatform}`,
+    });
+    await user.click(trigger.closest("article")!.querySelector("img")!);
+    const dialog = screen.getByRole("dialog", { name: weddingPlatform });
+    await user.click(
+      within(dialog).getByRole("button", { name: "Close dialog" }),
+    );
+    expect(trigger).toHaveFocus();
+  });
+
   it("keeps an honest short note for the Project without confirmed detail", async () => {
     const user = userEvent.setup();
     render(<App />);
@@ -181,7 +195,7 @@ describe("Portfolio visitor journeys", () => {
       "href",
       "https://t.me/ghostmania2",
     );
-    const resume = screen.getByRole("link", { name: /Download résumé/i });
+    const resume = screen.getByRole("link", { name: /Download resume/i });
     expect(resume).toHaveAttribute("href", "/resume.pdf");
     expect(resume).toHaveAttribute("download");
   });

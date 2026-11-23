@@ -35,7 +35,7 @@ describe("Contact discovery", () => {
       screen.getByRole("region", { name: "Let's build something great." }),
     );
     const telegram = contact.getByRole("link", { name: "Message on Telegram" });
-    const resume = contact.getByRole("link", { name: /Download résumé/ });
+    const resume = contact.getByRole("link", { name: /Download resume/ });
     expect(
       telegram.compareDocumentPosition(resume) &
         Node.DOCUMENT_POSITION_FOLLOWING,

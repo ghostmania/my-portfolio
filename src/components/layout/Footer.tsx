@@ -11,10 +11,7 @@ export function Footer() {
       <div className="wrap footer-inner">
         <div>
           <Wordmark />
-          <span>
-            © {new Date().getFullYear()} {t(profile.name)}
-            {t(". Crafted with intention.")}
-          </span>
+          <span>© {new Date().getFullYear()}</span>
         </div>
         <SocialLinks profile={profile} hideMissing />
         <a href="#top">

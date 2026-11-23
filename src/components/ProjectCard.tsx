@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { useLanguage } from "../i18n/context";
 import { ArrowUpRight } from "lucide-react";
 import type { Project } from "../data/projects";
@@ -12,8 +13,16 @@ export function ProjectCard({
   const { t } = useLanguage();
   const lead = project.screenshots[0];
   const label = t("Read case study");
+  const trigger = useRef<HTMLButtonElement>(null);
+  // The whole block opens the case study; the button stays the one keyboard and
+  // screen-reader control, and takes focus so the popup can hand it back on close.
+  const open = () => {
+    if (window.getSelection()?.toString()) return;
+    trigger.current?.focus();
+    onSelect(project);
+  };
   return (
-    <article className="project-block">
+    <article className="project-block" onClick={open}>
       <div className="project-block-copy">
         <p className="project-category">{t(project.category)}</p>
         <h3>{t(project.headline)}</h3>
@@ -29,9 +38,9 @@ export function ProjectCard({
           ))}
         </div>
         <button
+          ref={trigger}
           className="case-link"
           aria-label={`${label}: ${t(project.headline)}`}
-          onClick={() => onSelect(project)}
         >
           {label}
           <ArrowUpRight size={18} aria-hidden="true" />

@@ -1,5 +1,6 @@
 import { useLanguage } from "../../i18n/context";
 import { skills } from "../../data/skills";
+import { SkillIcon } from "../SkillIcon";
 
 export function About() {
   const { t } = useLanguage();
@@ -37,7 +38,10 @@ export function About() {
               <h4>{t(skill.title)}</h4>
               <ul>
                 {skill.items.map((item) => (
-                  <li key={item}>{t(item)}</li>
+                  <li key={item}>
+                    <SkillIcon item={item} />
+                    {t(item)}
+                  </li>
                 ))}
               </ul>
             </div>

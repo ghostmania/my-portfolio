@@ -62,7 +62,7 @@ export function Contact({ profile }: { profile: Profile }) {
             download
           >
             <span className="od-field">
-              <span>{t("Download résumé")}</span>
+              <span>{t("Download resume")}</span>
               <small>{t("PDF · Get to know my work")}</small>
             </span>
             <Download size={20} aria-hidden="true" />
@@ -70,7 +70,7 @@ export function Contact({ profile }: { profile: Profile }) {
         ) : (
           <div className="contact-row pending">
             <span className="od-field">
-              <span>{t("My résumé")}</span>
+              <span>{t("My resume")}</span>
               <small>{t("PDF will be available here")}</small>
             </span>
             <Download size={20} aria-hidden="true" />
