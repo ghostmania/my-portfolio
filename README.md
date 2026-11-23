@@ -1,15 +1,16 @@
-# Igor — personal portfolio
+# igorborisenko.dev — personal portfolio
 
-React, TypeScript, Vite, Tailwind CSS, and Lucide. This implements the English-language Dark Tech design in `mockup.html` and the scope in `portfolio-project-brief.md`. Both input files are preserved.
+The personal site of Igor Borisenko, a senior full-stack developer. React, TypeScript, Vite, Tailwind CSS and Lucide. One light-themed page in English and Russian.
 
-Repository: [ghostmania/my-portfolio](https://github.com/ghostmania/my-portfolio). GitHub Pages address: [portfolio](https://ghostmania.github.io/my-portfolio/), [projects](https://ghostmania.github.io/my-portfolio/projects/).
+Repository: [ghostmania/my-portfolio](https://github.com/ghostmania/my-portfolio). The site is currently published at the [GitHub Pages address](https://ghostmania.github.io/my-portfolio/). The brand is `igorborisenko.dev`; buying that domain, moving hosting and redirecting the old address are follow-up tasks.
 
-## Pages
+`GLOSSARY.md` defines the terms used below. `docs/redesign-igorborisenko-dev.spec.md` records the decisions behind the current design. `mockup.html`, `portfolio-project-brief.md` and `docs/implementation-plan.md` describe the earlier dark two-page version and are kept as history.
 
-- Landing page: hero, services, screenshot gallery with a full-size image viewer, and contact.
-- `projects/`: project case studies, About, tech stack, and contact.
-- The experience timeline is no longer displayed. Header links connect the pages.
-- Gallery arrows and left/right keyboard keys browse images; Escape closes the viewer. “Open full size” opens the original image.
+## The page
+
+Hero with the Portrait, Projects, Services, About with skills, Experience, Contact. Each Project is a tinted block titled by its Outcome headline; "Read case study" opens the Case study in a popup.
+
+**Product names never appear on the site.** They remain only in the Résumé (`public/resume.pdf`). A test fails if one slips into site text.
 
 ## Run locally
 
@@ -29,21 +30,34 @@ npm run preview
 
 ## Edit content
 
-| File                                   | Content                                                                                  |
-| -------------------------------------- | ---------------------------------------------------------------------------------------- |
-| `src/data/profile.ts`                  | Public name, location, availability, email, social profiles, résumé path, metrics        |
-| `src/data/projects.ts`                 | Summaries, technology badges, case studies, results, optional live links and screenshots |
-| `src/data/experience.ts`               | Experience entries; add verified dates/titles here                                       |
-| `src/data/skills.ts`                   | Capability groups                                                                        |
-| `src/components/sections/Services.tsx` | Client-facing service copy                                                               |
-| `src/styles/globals.css`               | Prototype design tokens, typography, layout and responsive styles                        |
-| `index.html`                           | Page title, description, Open Graph title/description                                    |
+There is no database. All content is typed files in the repository.
 
-The current public name is **Igor**, as required by the brief. The owner-supplied email, LinkedIn, GitHub, Telegram, and résumé are configured in `src/data/profile.ts`. Missing destinations render as clearly labeled text, not dead links. Real configured email/social links become active automatically; copying email announces success or a fallback message.
+| File                                   | Content                                                                        |
+| -------------------------------------- | ------------------------------------------------------------------------------ |
+| `src/data/profile.ts`                  | Name, domain, location, availability, contact links, Résumé, Portrait, metrics |
+| `src/data/projects.ts`                 | Projects and their Case studies                                                |
+| `src/data/experience.ts`               | Experience entries                                                             |
+| `src/data/skills.ts`                   | Skill groups shown in About                                                    |
+| `src/components/sections/Services.tsx` | Service copy                                                                   |
+| `src/i18n/ru.json`                     | Russian text, keyed by the English string                                      |
+| `src/styles/globals.css`               | Design tokens, including the Project tints, and all layout                     |
+| `index.html`                           | Page title, description and social tags                                        |
 
-The supplied résumé is stored at `public/resume.pdf`, with `resume: 'resume.pdf'` enabled. Replace that file to update the download. The build rejects configured résumé/screenshot paths that do not exist. All public asset paths are relative to Vite's base URL.
+### Add a Project
 
-All five projects use owner-supplied screenshots, including the Heldyn home-care homepage. Add authorized images under `public/projects/` (prefer WebP/AVIF), then set each project's `screenshot` with `path`, meaningful `alt`, `width`, and `height`. The image replaces the illustration. Add a verified `url` to show a live-project link in the dialog. Project copy and experience dates are drawn from the supplied résumé. Additional images can be added to each project’s `gallery` array. See `docs/project-content-sources.md` for attribution and unresolved details.
+1. Put its screenshots in a folder under `public/projects/`, named after the kind of product and not its name.
+2. Add one entry to the list in `src/data/projects.ts`. The first screenshot is the one shown on the page. The position in the list is the position on the page, and the tint is assigned automatically.
+3. Add the Russian text for the entry's strings to `src/i18n/ru.json`.
+
+Then run `npm test`. It fails if a Project or Experience string has no Russian translation, if an id repeats, if a Project has no screenshot, or if a product name appears. When the new product has a name, add it to the list in `src/data/content.test.ts` so the check covers it. `npm run build` fails if a screenshot path does not exist.
+
+### Other assets
+
+- Replace `public/resume.pdf` to update the Résumé download.
+- The Portrait is `public/portrait.webp`, made from `reference-assets/portrait-source.png`. After changing it, run `node scripts/generateSocialCard.mjs` to rebuild `public/social-card.png`.
+- Missing contact destinations render as clearly labeled text, not dead links.
+
+See `docs/project-content-sources.md` for where project facts come from and what is unresolved.
 
 ## Checks
 
@@ -56,7 +70,7 @@ npx playwright install chromium
 npm run test:e2e
 ```
 
-Vitest and React Testing Library cover visitor journeys, editable contact states, clipboard failure, dialog controls, and metadata validation. Playwright runs Chromium desktop and mobile checks against the production build, including native dialog focus/Escape/backdrop, section navigation, overflow, reduced motion, and axe accessibility checks. Screenshots are written to `test-results/`.
+Vitest and React Testing Library cover visitor journeys, languages, contact states, clipboard failure, dialog controls, content rules and metadata validation. Playwright runs Chromium desktop and mobile checks against the production build, including native dialog focus/Escape/backdrop, section navigation, overflow, reduced motion, and axe accessibility checks. Screenshots are written to `test-results/`.
 
 Native browser semantics are tested in Playwright; jsdom's dialog/IntersectionObserver shims are only for component tests. No Lighthouse score is claimed. See `docs/verification.md` for recorded checks and limits.
 
@@ -86,20 +100,19 @@ VITE_BASE_PATH=/my-portfolio/ npm run test:e2e
 
 The example domain is only for testing metadata. For the normal local preview, rebuild with `npm run build`. You may also copy `.env.example` to `.env.local` and fill in your actual values. All values shipped in a static site are public; no secrets are needed.
 
-For a custom domain, configure it in **Settings → Pages**, set the provider's DNS records as GitHub instructs, and enable **Enforce HTTPS**. Use `/` for the base and your domain for `SITE_URL`. If managing the domain through a `CNAME` file, add only the verified hostname to `public/CNAME`. No SPA fallback is needed: both HTML pages are emitted by Vite; section navigation uses anchors and project details use dialogs.
+For a custom domain, configure it in **Settings → Pages**, set the provider's DNS records as GitHub instructs, and enable **Enforce HTTPS**. Use `/` for the base and your domain for `SITE_URL`. If managing the domain through a `CNAME` file, add only the verified hostname to `public/CNAME`. No SPA fallback is needed: the site is one HTML page; section navigation uses anchors and Case studies open in dialogs.
 
 To roll back, revert the problematic commit on `main` or re-run a known-good workflow with its original source. The workflow publishes the verified build when changes are pushed to main.
 
 ## Owner inputs before publishing
 
-- Confirm public name, location, availability, and the supplied experience metrics.
-- Supply any missing public project links.
+- Confirm location, availability, and the supplied experience metrics.
 - Review the résumé-based case studies and clarify the Wild Food migration version/date. Heldyn still needs details because it is absent from the résumé.
-- Set up the repository and, optionally, a custom domain.
+- Buy `igorborisenko.dev`, move hosting, and redirect the old address.
 
-## ECC workflow
+## History
 
-Built using the installed `ecc@ecc` 2.2.3 skills: search-first, coding-standards, frontend-patterns, tdd-workflow, deployment-patterns and verification-loop. Cache validation confirmed all manifest references. The plan is in `docs/implementation-plan.md`; test evidence is in `docs/verification.md`. No Git repository existed at intake; the repository was initialized for the first release.
+The first release was built using the installed `ecc@ecc` 2.2.3 skills: search-first, coding-standards, frontend-patterns, tdd-workflow, deployment-patterns and verification-loop. Cache validation confirmed all manifest references. The plan is in `docs/implementation-plan.md`; test evidence is in `docs/verification.md`. No Git repository existed at intake; the repository was initialized for the first release.
 
 ## References
 

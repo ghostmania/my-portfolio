@@ -9,22 +9,13 @@ function initialLanguage(): Language {
   }
 }
 
-export function LanguageProvider({
-  children,
-  technical = false,
-}: {
-  children: ReactNode;
-  technical?: boolean;
-}) {
+export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useState<Language>(initialLanguage);
   useEffect(() => {
     document.documentElement.lang = language;
-    const title = technical
-      ? "Projects & Engineering — Igor"
-      : "Igor — Senior Full-stack Developer";
-    const description = technical
-      ? "Projects & Engineering — Igor with 8+ years of experience. Reliable web applications, thoughtful architecture, and end-to-end product development."
-      : "Igor — Senior Full-stack Developer with 8+ years of experience. Reliable web applications, thoughtful architecture, and end-to-end product development.";
+    const title = "Igor Borisenko — Senior Full-stack Developer";
+    const description =
+      "Igor Borisenko — Senior Full-stack Developer with 8+ years of experience. Reliable web applications, thoughtful architecture, and end-to-end product development.";
     document.title = translate(language, title);
     const descriptions = [
       ["meta[name='description']", description],
@@ -44,7 +35,7 @@ export function LanguageProvider({
     } catch {
       // Language switching still works when browser storage is unavailable.
     }
-  }, [language, technical]);
+  }, [language]);
   return (
     <LanguageContext
       value={{

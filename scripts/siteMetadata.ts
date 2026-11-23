@@ -34,12 +34,13 @@ export function siteMetadata(siteUrl: string): {
         tag: "meta",
         attrs: {
           property: "og:image:alt",
-          content: "Igor — building digital products that make an impact.",
+          content:
+            "Igor Borisenko — Senior Full-stack Developer, igorborisenko.dev",
         },
       },
       { tag: "meta", attrs: { name: "twitter:image", content: image } },
     ],
-    sitemap: `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${xmlUrl}</loc></url><url><loc>${xmlUrl}projects/</loc></url></urlset>\n`,
+    sitemap: `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${xmlUrl}</loc></url></urlset>\n`,
     robots: `User-agent: *\nAllow: /\nSitemap: ${canonical}sitemap.xml\n`,
   };
 }

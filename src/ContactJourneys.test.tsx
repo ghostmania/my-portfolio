@@ -12,9 +12,9 @@ describe("Contact discovery", () => {
   it("offers direct email and Telegram actions at the start, after work, and before the résumé", () => {
     render(<App />);
     const hero = within(
-      screen.getByRole("region", { name: /Building digital/ }),
+      screen.getByRole("region", { name: /I take web products/ }),
     );
-    expect(hero.getByRole("link", { name: "Contact me" })).toHaveAttribute(
+    expect(hero.getByRole("link", { name: "Email me" })).toHaveAttribute(
       "href",
       "mailto:ghostmania2@gmail.com",
     );
@@ -35,7 +35,7 @@ describe("Contact discovery", () => {
       screen.getByRole("region", { name: "Let's build something great." }),
     );
     const telegram = contact.getByRole("link", { name: "Message on Telegram" });
-    const resume = contact.getByRole("link", { name: /Download résumé/ });
+    const resume = contact.getByRole("link", { name: /Download resume/ });
     expect(
       telegram.compareDocumentPosition(resume) &
         Node.DOCUMENT_POSITION_FOLLOWING,
@@ -76,8 +76,7 @@ describe("Contact discovery", () => {
     expect(trigger).toHaveAttribute("aria-expanded", "false");
   });
 
-  it("provides the same translated contact options on the technical page", async () => {
-    window.history.replaceState({}, "", "/projects/");
+  it("provides the same contact options in Russian", async () => {
     const user = userEvent.setup();
     render(<App />);
     await user.click(screen.getByRole("button", { name: "RU — Русский" }));

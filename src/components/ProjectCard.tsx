@@ -1,20 +1,7 @@
+import { useRef } from "react";
 import { useLanguage } from "../i18n/context";
-import { ArrowUpRight, Star } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import type { Project } from "../data/projects";
-import {
-  HealthcareArtwork,
-  MarketplaceArtwork,
-  MobileArtwork,
-  WeddingArtwork,
-} from "./ProjectArtwork";
-
-const artwork = {
-  hochzeit: WeddingArtwork,
-  parametric: MarketplaceArtwork,
-  heldyn: HealthcareArtwork,
-  pyjam: MobileArtwork,
-  wildfood: MarketplaceArtwork,
-};
 
 export function ProjectCard({
   project,
@@ -24,37 +11,25 @@ export function ProjectCard({
   onSelect: (project: Project) => void;
 }) {
   const { t } = useLanguage();
-  const Artwork = artwork[project.id];
-  const preview = project.screenshot ? (
-    <div
-      className={`screenshot-preview${project.featured ? " screenshot-featured" : ""}`}
-    >
-      <img
-        className="project-screenshot"
-        src={`${import.meta.env.BASE_URL}${project.screenshot.path}`}
-        alt={t(project.screenshot.alt)}
-        width={project.screenshot.width}
-        height={project.screenshot.height}
-        loading="lazy"
-        decoding="async"
-      />
-    </div>
-  ) : (
-    <Artwork />
-  );
-  const label = t("Project overview");
+  const lead = project.screenshots[0];
+  const label = t("Read case study");
+  const trigger = useRef<HTMLButtonElement>(null);
+  // The whole block opens the case study; the button stays the one keyboard and
+  // screen-reader control, and takes focus so the popup can hand it back on close.
+  const open = () => {
+    if (window.getSelection()?.toString()) return;
+    trigger.current?.focus();
+    onSelect(project);
+  };
   return (
-    <article className={project.featured ? "featured" : "project-card"}>
-      {!project.featured && preview}
-      <div className={project.featured ? "feature-copy" : "project-card-body"}>
-        {project.featured && (
-          <span className="feature-label">
-            <Star size={14} aria-hidden="true" />{" "}
-            {t("Featured project · Full-stack ownership")}
-          </span>
-        )}
-        <h3>{project.name}</h3>
+    <article className="project-block" onClick={open}>
+      <div className="project-block-copy">
+        <p className="project-category">{t(project.category)}</p>
+        <h3>{t(project.headline)}</h3>
         <p className="project-description">{t(project.summary)}</p>
+        {!!project.results.length && (
+          <ProjectResults results={project.results} />
+        )}
         <div className="tags">
           {project.tags.map((tag) => (
             <span className="tag" key={tag}>
@@ -62,19 +37,26 @@ export function ProjectCard({
             </span>
           ))}
         </div>
-        {!!project.results.length && (
-          <ProjectResults results={project.results} />
-        )}
         <button
+          ref={trigger}
           className="case-link"
-          aria-label={`${label}: ${project.name}`}
-          onClick={() => onSelect(project)}
+          aria-label={`${label}: ${t(project.headline)}`}
         >
           {label}
           <ArrowUpRight size={18} aria-hidden="true" />
         </button>
       </div>
-      {project.featured && preview}
+      <div className="project-block-shot">
+        <img
+          className="project-screenshot"
+          src={`${import.meta.env.BASE_URL}${lead.path}`}
+          alt={t(lead.alt)}
+          width={lead.width}
+          height={lead.height}
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
     </article>
   );
 }

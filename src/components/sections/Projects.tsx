@@ -16,7 +16,6 @@ export function Projects() {
     >
       <div className="section-heading">
         <div>
-          <span className="eyebrow">{t("Selected work")}</span>
           <h2 id="projects-heading">{t("Ideas brought to life.")}</h2>
         </div>
         <p>
@@ -24,25 +23,14 @@ export function Projects() {
           {t("Built with purpose. Owned end to end.")}
         </p>
       </div>
-      {projects
-        .filter((project) => project.featured)
-        .map((project) => (
+      <div className="project-stack">
+        {projects.map((project) => (
           <ProjectCard
             key={project.id}
             project={project}
             onSelect={setSelected}
           />
         ))}
-      <div className="project-grid">
-        {projects
-          .filter((project) => !project.featured)
-          .map((project) => (
-            <ProjectCard
-              key={project.id}
-              project={project}
-              onSelect={setSelected}
-            />
-          ))}
       </div>
       <ProjectContact />
       {selected && (

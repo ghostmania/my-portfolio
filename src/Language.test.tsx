@@ -13,32 +13,38 @@ describe("Language selection", () => {
     localStorage.clear();
   });
 
-  it("switches the landing page to Russian and remembers the choice on the projects page", async () => {
+  it("switches the page to Russian, remembers the choice and switches back", async () => {
     const user = userEvent.setup();
     const view = render(<App />);
     await user.click(screen.getByRole("button", { name: "RU — Русский" }));
     expect(document.documentElement).toHaveAttribute("lang", "ru");
-    expect(
-      screen.getByRole("heading", { name: "От идеи до экрана." }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole("button", { name: "Следующий скриншот" }),
-    ).toBeInTheDocument();
-    view.unmount();
-    window.history.replaceState({}, "", "/projects/");
-    render(<App />);
-    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "Проекты и разработка.",
+    expect(document.title).toBe(
+      "Игорь Борисенко — Senior Full-stack разработчик",
     );
+    expect(
+      screen.getByRole("heading", {
+        name: "Платформа для планирования свадеб",
+      }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
+      "Довожу веб-продукты",
+    );
+    view.unmount();
+    render(<App />);
+    expect(
+      screen.getByRole("heading", { name: "Идеи, ставшие продуктами." }),
+    ).toBeInTheDocument();
     await user.click(
-      screen.getByRole("button", { name: "Обзор проекта: Hochzeit.click" }),
+      screen.getByRole("button", {
+        name: "Читать кейс: Платформа для планирования свадеб: от первой идеи до 500+ пользователей в день",
+      }),
     );
     expect(screen.getByText("Решение и архитектура")).toBeInTheDocument();
     await user.click(screen.getByRole("button", { name: "Закрыть окно" }));
     await user.click(screen.getByRole("button", { name: "EN — English" }));
     expect(document.documentElement).toHaveAttribute("lang", "en");
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "Projects & engineering.",
+      "I take web products",
     );
   });
 
@@ -46,7 +52,7 @@ describe("Language selection", () => {
     localStorage.setItem("portfolio-language", "de");
     render(<App />);
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "Building digital",
+      "I take web products",
     );
   });
 
@@ -59,8 +65,8 @@ describe("Language selection", () => {
     });
     render(<App />);
     await userEvent.click(screen.getByRole("button", { name: "RU — Русский" }));
-    expect(
-      screen.getByRole("heading", { name: "От идеи до экрана." }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
+      "Довожу веб-продукты",
+    );
   });
 });

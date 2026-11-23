@@ -1,33 +1,43 @@
 export interface ProjectScreenshot {
+  /** Path relative to public/, without a leading slash. */
   readonly path: string;
+  /** Describes the screen. Never names the product. */
   readonly alt: string;
   readonly width: number;
   readonly height: number;
 }
 
 export interface Project {
-  readonly id: "hochzeit" | "parametric" | "heldyn" | "pyjam" | "wildfood";
-  readonly name: string;
+  /** Unique within the list. Never shown to visitors. */
+  readonly id: string;
+  /** Category tag: the kind of product, such as "B2C platform". */
+  readonly category: string;
+  /** Outcome headline: one sentence stating the result. Stands in for the product name. */
+  readonly headline: string;
   readonly summary: string;
   readonly intro: string;
   readonly tags: readonly string[];
+  /** Case study sections, in reading order. */
   readonly sections: readonly { title: string; body: string }[];
   readonly results: readonly { value: string; label: string }[];
-  readonly featured?: boolean;
-  readonly url: string | null;
-  readonly screenshot: ProjectScreenshot | null;
-  readonly gallery?: readonly ProjectScreenshot[];
+  /** At least one. The first is the lead screenshot shown on the page. */
+  readonly screenshots: readonly ProjectScreenshot[];
 }
 
+// To add a Project: put its screenshots under public/projects/, add one entry
+// here, and add the Russian text to src/i18n/ru.json. Page order is list order.
+// Product names appear only in the résumé: never in any text below.
+//
 // Responsibilities, stacks, dates and outcomes are sourced from the supplied résumé.
 // See docs/project-content-sources.md for sources and unresolved details.
 export const projects: readonly Project[] = [
   {
-    id: "hochzeit",
-    name: "Hochzeit.click",
-    featured: true,
+    id: "wedding-platform",
+    category: "B2C platform",
+    headline:
+      "A wedding-planning platform taken from first concept to 500+ daily users",
     summary:
-      "From first concept to a platform used every day. Seven years of full-stack development connecting couples with wedding professionals.",
+      "Seven years of full-stack development connecting couples with wedding professionals, from the first sketch to a product used every day.",
     intro:
       "A B2C wedding-planning platform for the German-speaking market. I led development from the initial concept through production and long-term feature delivery.",
     tags: ["Angular", "Node.js", "Firebase", "Firestore", "Stripe", "BigQuery"],
@@ -60,29 +70,29 @@ export const projects: readonly Project[] = [
     results: [
       { value: "500+", label: "Daily active users" },
       { value: "4.0s → 1.5s", label: "Initial load time" },
+      { value: "50+", label: "Reusable UI components" },
     ],
-    url: "https://my.hochzeit.click",
-    screenshot: {
-      path: "projects/hochzeit/couple-onboarding.png",
-      alt: "Hochzeit.click onboarding screen asking couples about their wedding-planning stage",
-      width: 1874,
-      height: 911,
-    },
-    gallery: [
+    screenshots: [
       {
-        path: "projects/hochzeit/vendor-search.png",
+        path: "projects/wedding-platform/vendor-search.png",
         alt: "Wedding vendor search with venue cards, ratings and brochure requests",
         width: 3568,
         height: 1952,
       },
       {
-        path: "projects/hochzeit/vendor-galleries.png",
+        path: "projects/wedding-platform/couple-onboarding.png",
+        alt: "Onboarding screen asking couples about their wedding-planning stage",
+        width: 1874,
+        height: 911,
+      },
+      {
+        path: "projects/wedding-platform/vendor-galleries.png",
         alt: "Vendor photo-gallery management with publication status and wedding collections",
         width: 3588,
         height: 1964,
       },
       {
-        path: "projects/hochzeit/vendor-profile.png",
+        path: "projects/wedding-platform/vendor-profile.png",
         alt: "Vendor profile editor with service pricing, experience and additional offerings",
         width: 3572,
         height: 1964,
@@ -90,12 +100,14 @@ export const projects: readonly Project[] = [
     ],
   },
   {
-    id: "parametric",
-    name: "Parametric.one",
+    id: "construction-marketplace",
+    category: "B2B marketplace",
+    headline:
+      "A construction-supplies marketplace launched on a shared component library",
     summary:
-      "A B2B marketplace for construction supplies. React frontend development, shared UI components and a clearer approach to application state.",
+      "React frontend work for a marketplace selling construction materials: core launch features, shared UI components and a clearer approach to application state.",
     intro:
-      "A public-facing marketplace for purchasing construction materials. I worked on the React frontend at Parametric LLC, contributing core features for the initial launch.",
+      "A public-facing marketplace for purchasing construction materials. I worked on the React frontend, contributing core features for the initial launch.",
     tags: ["React", "REST APIs", "Laravel", "PostgreSQL", "Docker"],
     sections: [
       {
@@ -104,7 +116,7 @@ export const projects: readonly Project[] = [
       },
       {
         title: "My role",
-        body: "React Frontend Developer at Parametric LLC, January 2018–August 2019. I developed and shipped more than 10 core features using React and REST APIs.",
+        body: "React Frontend Developer, January 2018–August 2019. I developed and shipped more than 10 core features using React and REST APIs.",
       },
       {
         title: "Implementation",
@@ -119,20 +131,26 @@ export const projects: readonly Project[] = [
         body: "React on the frontend, with Laravel, PostgreSQL and Docker in the broader project stack. My role focused on frontend delivery, state management and reusable components.",
       },
     ],
-    results: [],
-    url: "https://parametric.one/",
-    screenshot: {
-      path: "projects/parametric/marketplace-home.png",
-      alt: "Parametric construction-materials marketplace homepage with product search and categories",
-      width: 1557,
-      height: 581,
-    },
+    results: [
+      { value: "10+", label: "Core features shipped" },
+      { value: "−50%", label: "State-related bugs" },
+    ],
+    screenshots: [
+      {
+        path: "projects/construction-marketplace/marketplace-home.png",
+        alt: "Construction-materials marketplace homepage with product search and categories",
+        width: 1557,
+        height: 581,
+      },
+    ],
   },
   {
-    id: "pyjam",
-    name: "Pyjam",
+    id: "social-app",
+    category: "Mobile social app",
+    headline:
+      "A mobile-first social app with navigation that earned a 4.5-star rating",
     summary:
-      "A mobile-first social app. React and Ionic interfaces, reusable components and improvements to navigation and stability.",
+      "React and Ionic interfaces for a social streaming app, with reusable components and steady improvements to navigation and stability.",
     intro:
       "A social application with a mobile-first experience. My work focused on React and Ionic UI development, application architecture and maintaining reliable everyday interactions.",
     tags: ["React", "Ionic", "Laravel", "PostgreSQL", "Docker"],
@@ -154,28 +172,28 @@ export const projects: readonly Project[] = [
         body: "React and Ionic for the mobile UI, with Laravel, PostgreSQL and Docker listed in the broader project stack.",
       },
     ],
-    results: [],
-    url: "https://pyjam.com/",
-    screenshot: {
-      path: "projects/pyjam/social-app-home.png",
-      alt: "Pyjam social-app landing page introducing live streams and mobile apps",
-      width: 2848,
-      height: 1578,
-    },
-    gallery: [
+    results: [{ value: "4.5★", label: "App-store rating" }],
+    screenshots: [
       {
-        path: "projects/pyjam/interactive-stream.png",
-        alt: "Pyjam mobile streaming interface with directional controls and an onboarding hint",
+        path: "projects/social-app/interactive-stream.png",
+        alt: "Mobile streaming interface with directional controls and an onboarding hint",
         width: 816,
         height: 1042,
+      },
+      {
+        path: "projects/social-app/social-app-home.png",
+        alt: "Social-app landing page introducing live streams and mobile apps",
+        width: 2848,
+        height: 1578,
       },
     ],
   },
   {
-    id: "wildfood",
-    name: "Wild Food",
+    id: "plant-catalogue",
+    category: "Community app",
+    headline: "A legacy plant-discovery app modernised and made 40% faster",
     summary:
-      "A community plant-discovery application. Legacy frontend modernization and faster loading through code splitting and improved image delivery.",
+      "Frontend modernization for a community plant-discovery application, with faster loading through code splitting and improved image delivery.",
     intro:
       "A MEAN-stack application for discovering plants and sharing local information. I worked on modernizing the frontend and improving loading performance.",
     tags: ["AngularJS", "Angular", "MongoDB", "Express", "Node.js"],
@@ -193,18 +211,20 @@ export const projects: readonly Project[] = [
         body: "I introduced code splitting and optimized the image-delivery pipeline. These changes improved load speed by 40%.",
       },
     ],
-    results: [],
-    url: null,
-    screenshot: {
-      path: "projects/wildfood/plant-catalog.png",
-      alt: "Wild Food plant catalogue with browsing cards and a detailed African Olive plant profile",
-      width: 1936,
-      height: 954,
-    },
+    results: [{ value: "40%", label: "Faster loading" }],
+    screenshots: [
+      {
+        path: "projects/plant-catalogue/plant-catalog.png",
+        alt: "Plant catalogue with browsing cards and a detailed African Olive plant profile",
+        width: 1936,
+        height: 954,
+      },
+    ],
   },
   {
-    id: "heldyn",
-    name: "Heldyn",
+    id: "home-care",
+    category: "Healthcare",
+    headline: "Clearer digital experiences for a home-care service",
     summary:
       "Healthcare application work focused on clear digital experiences.",
     intro: "Development work in the healthcare application space.",
@@ -216,12 +236,13 @@ export const projects: readonly Project[] = [
       },
     ],
     results: [],
-    url: null,
-    screenshot: {
-      path: "projects/heldyn/home-care-homepage.png",
-      alt: "Heldyn home-care services homepage with a caregiver and an older woman",
-      width: 2814,
-      height: 1958,
-    },
+    screenshots: [
+      {
+        path: "projects/home-care/home-care-homepage.png",
+        alt: "Home-care services homepage with a caregiver and an older woman",
+        width: 2814,
+        height: 1958,
+      },
+    ],
   },
 ];

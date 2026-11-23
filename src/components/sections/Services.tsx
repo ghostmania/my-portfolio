@@ -45,7 +45,6 @@ export function Services() {
       <div className="wrap">
         <div className="section-heading">
           <div>
-            <span className="eyebrow">{t("What I can do for you")}</span>
             <h2 id="services-heading">
               {t("Your next idea. Let's build it.")}
             </h2>

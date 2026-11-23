@@ -1,6 +1,7 @@
 import { useLanguage } from "../../i18n/context";
 import { ArrowUp } from "lucide-react";
 import { profile } from "../../data/profile";
+import { Wordmark } from "../Wordmark";
 import { SocialLinks } from "../SocialLinks";
 
 export function Footer() {
@@ -9,14 +10,8 @@ export function Footer() {
     <footer>
       <div className="wrap footer-inner">
         <div>
-          <a className="wordmark" href="#top">
-            {t(profile.name)}
-            <span>.</span>
-          </a>
-          <span>
-            © {new Date().getFullYear()} {t(profile.name)}
-            {t(". Crafted with intention.")}
-          </span>
+          <Wordmark />
+          <span>© {new Date().getFullYear()}</span>
         </div>
         <SocialLinks profile={profile} hideMissing />
         <a href="#top">

@@ -12,14 +12,6 @@ export default defineConfig(({ mode }) => {
   const metadata = siteMetadata(env.SITE_URL || "");
   return {
     base: `${(env.VITE_BASE_PATH || "/").replace(/\/+$/, "")}/`,
-    build: {
-      rolldownOptions: {
-        input: {
-          main: resolve("index.html"),
-          projects: resolve("projects/index.html"),
-        },
-      },
-    },
     plugins: [
       react(),
       tailwindcss(),
@@ -28,9 +20,9 @@ export default defineConfig(({ mode }) => {
         buildStart() {
           const assets = [
             profile.resume,
-            ...projects.map((project) => project.screenshot?.path),
+            profile.portrait.path,
             ...projects.flatMap((project) =>
-              (project.gallery ?? []).map((screenshot) => screenshot.path),
+              project.screenshots.map((screenshot) => screenshot.path),
             ),
           ].filter((path): path is string => !!path);
           for (const asset of assets) {
@@ -45,24 +37,8 @@ export default defineConfig(({ mode }) => {
             }
           }
         },
-        transformIndexHtml(_html, context) {
-          return metadata.tags.map((tag) => {
-            if (
-              context.path.endsWith("/projects/index.html") &&
-              tag.attrs &&
-              (tag.attrs.rel === "canonical" || tag.attrs.property === "og:url")
-            ) {
-              const key = tag.attrs.rel === "canonical" ? "href" : "content";
-              return {
-                ...tag,
-                attrs: {
-                  ...tag.attrs,
-                  [key]: new URL("projects/", String(tag.attrs[key])).href,
-                },
-              };
-            }
-            return tag;
-          });
+        transformIndexHtml() {
+          return metadata.tags;
         },
         generateBundle() {
           if (!metadata.sitemap) return;

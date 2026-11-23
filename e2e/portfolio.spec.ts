@@ -1,8 +1,11 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
+const weddingPlatform =
+  "A wedding-planning platform taken from first concept to 500+ daily users";
+
 test.beforeEach(async ({ page }) => {
-  await page.goto("./projects/");
+  await page.goto("./");
 });
 
 test("all sections, fonts and assets load without errors or horizontal overflow", async ({
@@ -15,7 +18,7 @@ test("all sections, fonts and assets load without errors or horizontal overflow"
       () => document.documentElement.scrollWidth <= window.innerWidth,
     ),
   ).toBe(true);
-  await expect(page.locator("main section[id]")).toHaveCount(4);
+  await expect(page.locator("main section[id]")).toHaveCount(5);
   const screenshots = page.locator(".project-screenshot");
   await expect(screenshots).toHaveCount(5);
   for (const screenshot of await screenshots.all()) {
@@ -42,10 +45,10 @@ test("case study traps focus, closes with Escape and restores the trigger", asyn
   page,
 }) => {
   const trigger = page.getByRole("button", {
-    name: "Project overview: Hochzeit.click",
+    name: `Read case study: ${weddingPlatform}`,
   });
   await trigger.click();
-  const dialog = page.getByRole("dialog", { name: "Hochzeit.click" });
+  const dialog = page.getByRole("dialog", { name: weddingPlatform });
   await expect(dialog).toBeVisible();
   await expect(
     dialog.getByRole("button", { name: "Close dialog" }),
@@ -69,10 +72,10 @@ test("backdrop closes dialog and inside clicks keep it open", async ({
   page,
 }) => {
   await page
-    .getByRole("button", { name: "Project overview: Hochzeit.click" })
+    .getByRole("button", { name: `Read case study: ${weddingPlatform}` })
     .click();
   const dialog = page.getByRole("dialog");
-  await dialog.getByRole("heading", { name: "Hochzeit.click" }).click();
+  await dialog.getByRole("heading", { name: weddingPlatform }).click();
   await expect(dialog).toBeVisible();
   await page.mouse.click(4, 4);
   await expect(dialog).not.toBeVisible();
@@ -102,80 +105,32 @@ test("navigation reaches contact and the mobile menu supports Escape", async ({
 test("page and open case study pass accessibility checks", async ({ page }) => {
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
   await page
-    .getByRole("button", { name: "Project overview: Hochzeit.click" })
+    .getByRole("button", { name: `Read case study: ${weddingPlatform}` })
     .click();
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+});
+
+test("the portrait loads and the page uses the light theme", async ({
+  page,
+}) => {
+  const portrait = page.getByRole("img", {
+    name: "Portrait of Igor Borisenko",
+  });
+  await expect
+    .poll(() =>
+      portrait.evaluate(
+        (image: HTMLImageElement) => image.complete && image.naturalWidth > 0,
+      ),
+    )
+    .toBe(true);
+  await expect(page.locator("html")).toHaveCSS("color-scheme", "light");
+  await expect(page.locator("meta[name='theme-color']")).toHaveAttribute(
+    "content",
+    "#f5f6f8",
+  );
 });
 
 test("reduced motion disables smooth scrolling", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await expect(page.locator("html")).toHaveCSS("scroll-behavior", "auto");
-});
-
-test("landing gallery enlarges images and links to the separate technical page", async ({
-  page,
-}, testInfo) => {
-  await page.goto("./");
-  await expect(
-    page.locator("#projects, #about, #skills, #experience"),
-  ).toHaveCount(0);
-  await expect(page.locator("main section[id]")).toHaveCount(3);
-  const carousel = page.getByRole("group", { name: "From idea to screen." });
-  const thumbnails = carousel.getByRole("button", { name: /Show screenshot/ });
-  await expect(thumbnails).toHaveCount(9);
-  await carousel.getByRole("button", { name: "Previous screenshot" }).click();
-  await expect(thumbnails.last()).toHaveAttribute("aria-current", "true");
-  await carousel.getByRole("button", { name: "Next screenshot" }).click();
-  await expect(thumbnails.first()).toHaveAttribute("aria-current", "true");
-  await thumbnails.nth(6).click();
-  await expect(carousel.getByRole("heading", { name: "Pyjam" })).toBeVisible();
-  await page.keyboard.press("End");
-  await expect(thumbnails.last()).toBeFocused();
-  await page.keyboard.press("Home");
-  await expect(thumbnails.first()).toBeFocused();
-  const trigger = page.getByRole("button", { name: /Enlarge/ }).first();
-  await trigger.click();
-  const dialog = page.getByRole("dialog");
-  const image = dialog.getByRole("img");
-  await expect(image).toBeVisible();
-  const original = await image.getAttribute("src");
-  await page.keyboard.press("ArrowRight");
-  await expect(image).not.toHaveAttribute("src", original!);
-  await page.keyboard.press("ArrowLeft");
-  await expect(image).toHaveAttribute("src", original!);
-  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
-  await page.keyboard.press("Escape");
-  await expect(trigger).toBeFocused();
-  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
-  for (const image of await page.locator(".gc-thumbnail img").all()) {
-    await image.scrollIntoViewIfNeeded();
-    await expect
-      .poll(() =>
-        image.evaluate(
-          (el: HTMLImageElement) => el.complete && el.naturalWidth > 0,
-        ),
-      )
-      .toBe(true);
-  }
-  expect(
-    await page.evaluate(
-      () => document.documentElement.scrollWidth <= innerWidth,
-    ),
-  ).toBe(true);
-  await page.screenshot({
-    path: `test-results/${testInfo.project.name}-landing.png`,
-    fullPage: true,
-  });
-  await page
-    .getByRole("link", { name: "Explore the technical details" })
-    .click();
-  await expect(page).toHaveURL(/projects\/$/);
-  await page.reload();
-  await expect(
-    page.getByRole("heading", { name: "Projects & engineering." }),
-  ).toBeVisible();
-  await page.getByRole("link", { name: "Igor home" }).click();
-  await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    "Building digital",
-  );
 });

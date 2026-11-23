@@ -5,60 +5,37 @@ import { Footer } from "./components/layout/Footer";
 import { Hero } from "./components/sections/Hero";
 import { Projects } from "./components/sections/Projects";
 import { About } from "./components/sections/About";
-import { TechStack } from "./components/sections/TechStack";
+import { Experience } from "./components/sections/Experience";
 import { Services } from "./components/sections/Services";
-import { Gallery } from "./components/sections/Gallery";
 import { Contact } from "./components/sections/Contact";
 import { profile } from "./data/profile";
 import { FloatingContact } from "./components/FloatingContact";
 
 export default function App() {
-  const technical = /\/projects(?:\/|\/index.html)?$/.test(
-    window.location.pathname,
-  );
   return (
-    <LanguageProvider technical={technical}>
-      <Portfolio technical={technical} />
+    <LanguageProvider>
+      <Portfolio />
     </LanguageProvider>
   );
 }
 
-function Portfolio({ technical }: { technical: boolean }) {
+function Portfolio() {
   const { t } = useLanguage();
   return (
     <>
       <a className="skip" href="#main">
         {t("Skip to content")}
       </a>
-      <Header technical={technical} />
+      <Header />
       <main id="main" tabIndex={-1}>
-        {technical ? (
-          <div className="wrap">
-            <div className="technical-intro">
-              <span className="eyebrow">{t("Behind the work")}</span>
-              <h1>{t("Projects & engineering.")}</h1>
-              <p>
-                {t(
-                  "A closer look at the products, decisions, and technology behind my work.",
-                )}
-              </p>
-            </div>
-            <Projects />
-            <About />
-            <TechStack />
-          </div>
-        ) : (
-          <>
-            <div className="wrap">
-              <Hero />
-            </div>
-            <Services />
-            <div className="wrap">
-              <Gallery />
-            </div>
-          </>
-        )}
         <div className="wrap">
+          <Hero />
+          <Projects />
+        </div>
+        <Services />
+        <div className="wrap">
+          <About />
+          <Experience />
           <Contact profile={profile} />
         </div>
       </main>

@@ -4,6 +4,8 @@ import { Contact } from "./Contact";
 
 const contactProfile = {
   name: "Test owner",
+  firstName: "Test",
+  domain: "example.dev",
   location: "Test location",
   timezone: "UTC+4",
   availability: "Available for remote work",
@@ -12,6 +14,7 @@ const contactProfile = {
   github: "https://github.com/test",
   telegram: "https://t.me/test",
   resume: "resume.pdf",
+  portrait: { path: "portrait.webp", alt: "Portrait", width: 1, height: 1 },
 };
 
 it("shows honest placeholders when contact details and résumé are missing", () => {
@@ -46,7 +49,7 @@ it("renders supplied contact destinations and a base-aware real resume link", ()
     "rel",
     "noopener noreferrer",
   );
-  expect(screen.getByRole("link", { name: /Download résumé/ })).toHaveAttribute(
+  expect(screen.getByRole("link", { name: /Download resume/ })).toHaveAttribute(
     "href",
     "/resume.pdf",
   );

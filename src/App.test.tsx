@@ -2,62 +2,124 @@ import { fireEvent, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "./App";
 
-describe("Portfolio visitor journeys", () => {
-  beforeEach(() => window.history.replaceState({}, "", "/projects/"));
+const weddingPlatform =
+  "A wedding-planning platform taken from first concept to 500+ daily users";
 
-  it("keeps the landing page focused on services and visual work", () => {
-    window.history.replaceState({}, "", "/");
+describe("Portfolio visitor journeys", () => {
+  beforeEach(() => window.history.replaceState({}, "", "/"));
+
+  it("presents the whole portfolio on one page, in reading order", () => {
     const { container } = render(<App />);
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "Building digital",
+      "I take web products from first concept to daily use.",
     );
     expect(
       [...container.querySelectorAll("main section[id]")].map(
         (section) => section.id,
       ),
-    ).toEqual(["services", "gallery", "contact"]);
+    ).toEqual(["projects", "services", "about", "experience", "contact"]);
+    const hero = within(
+      screen.getByRole("region", { name: /I take web products/ }),
+    );
+    expect(hero.getByRole("link", { name: "View projects" })).toHaveAttribute(
+      "href",
+      "#projects",
+    );
     expect(
-      screen.getByRole("link", { name: /Explore projects/i }),
-    ).toHaveAttribute("href", "#gallery");
+      hero.getByRole("img", { name: "Portrait of Igor Borisenko" }),
+    ).toHaveAttribute("src", "/portrait.webp");
+    expect(
+      hero.getByText(
+        "Hi, I'm Igor, a senior full-stack developer based in Batumi, Georgia.",
+      ),
+    ).toBeInTheDocument();
+    expect(hero.getByText("Available for remote work")).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "The right stack for the job." }),
+    ).toBeInTheDocument();
+    expect(screen.queryByText("From idea to screen.")).not.toBeInTheDocument();
+    expect(
+      screen.queryByLabelText("My approach to product development"),
+    ).not.toBeInTheDocument();
   });
 
-  it("opens an enlarged gallery image and restores focus", async () => {
-    window.history.replaceState({}, "", "/");
-    const user = userEvent.setup();
+  it("links the header navigation to sections of the same page", () => {
     render(<App />);
-    const trigger = screen.getAllByRole("button", { name: /Enlarge/ })[0];
-    await user.click(trigger);
-    const dialog = screen.getByRole("dialog");
-    expect(within(dialog).getByRole("img")).toBeInTheDocument();
-    await user.click(
-      within(dialog).getByRole("button", { name: "Next image" }),
-    );
-    await user.click(
-      within(dialog).getByRole("button", { name: "Close dialog" }),
-    );
-    expect(trigger).toHaveFocus();
-  });
-
-  it("keeps projects, about and skills on the technical page", () => {
-    const { container } = render(<App />);
+    const navigation = within(screen.getByRole("navigation"));
     expect(
-      [...container.querySelectorAll("main section[id]")].map((el) => el.id),
-    ).toEqual(["projects", "about", "skills", "contact"]);
-    expect(screen.queryByText("Built on experience.")).not.toBeInTheDocument();
+      navigation.getAllByRole("link").map((link) => link.getAttribute("href")),
+    ).toEqual(["#projects", "#services", "#about", "#experience", "#contact"]);
   });
 
-  it("opens the featured case study and restores focus when closed", async () => {
+  it("brands the site as igorborisenko.dev under Igor's full name", () => {
+    render(<App />);
+    const wordmark = within(screen.getByRole("banner")).getByRole("link", {
+      name: "igorborisenko.dev home",
+    });
+    expect(wordmark).toHaveTextContent("igorborisenko.dev");
+    expect(wordmark).toHaveAttribute("href", "#top");
+    expect(document.title).toBe("Igor Borisenko — Senior Full-stack Developer");
+    const footer = screen.getByRole("contentinfo");
+    expect(footer).toHaveTextContent(/© \d{4}/);
+    expect(footer).not.toHaveTextContent(/Igor Borisenko|Crafted/);
+  });
+
+  it("titles the five Projects by outcome and never names a product", () => {
+    render(<App />);
+    const headlines = [
+      weddingPlatform,
+      "A construction-supplies marketplace launched on a shared component library",
+      "A mobile-first social app with navigation that earned a 4.5-star rating",
+      "A legacy plant-discovery app modernised and made 40% faster",
+      "Clearer digital experiences for a home-care service",
+    ];
+    const projects = within(document.getElementById("projects")!);
+    expect(
+      projects
+        .getAllByRole("heading", { level: 3 })
+        .slice(0, 5)
+        .map((heading) => heading.textContent),
+    ).toEqual(headlines);
+    for (const headline of headlines)
+      expect(
+        projects.getByRole("button", { name: `Read case study: ${headline}` }),
+      ).toBeInTheDocument();
+    expect(document.body.textContent).not.toMatch(
+      /hochzeit|parametric|pyjam|heldyn|wild\s?food/i,
+    );
+  });
+
+  it("shows the Experience timeline titled by kind of product", () => {
+    render(<App />);
+    const experience = within(document.getElementById("experience")!);
+    expect(
+      experience
+        .getAllByRole("heading", { level: 3 })
+        .map((heading) => heading.textContent),
+    ).toEqual([
+      "Wedding-planning platform",
+      "Construction-supplies marketplace",
+      "IDEA Advertising Agency",
+      "Plant catalogue application",
+    ]);
+    expect(
+      screen.getByText("Daily users on a wedding platform"),
+    ).toBeInTheDocument();
+  });
+
+  it("opens a Case study and restores focus when closed", async () => {
     const user = userEvent.setup();
     render(<App />);
     const trigger = screen.getByRole("button", {
-      name: "Project overview: Hochzeit.click",
+      name: `Read case study: ${weddingPlatform}`,
     });
     await user.click(trigger);
-    const dialog = screen.getByRole("dialog", { name: "Hochzeit.click" });
+    const dialog = screen.getByRole("dialog", { name: weddingPlatform });
     expect(
       within(dialog).getByText("Solution & architecture"),
     ).toBeInTheDocument();
     expect(within(dialog).getByText("4.0s → 1.5s")).toBeInTheDocument();
+    expect(within(dialog).queryAllByRole("link")).toEqual([]);
     expect(document.body.style.overflow).toBe("hidden");
     await user.click(
       within(dialog).getByRole("button", { name: "Close dialog" }),
@@ -67,25 +129,34 @@ describe("Portfolio visitor journeys", () => {
     expect(trigger).toHaveFocus();
   });
 
-  it.each(["Parametric.one", "Heldyn", "Pyjam"])(
-    "opens honest project notes for %s",
-    async (name) => {
-      const user = userEvent.setup();
-      render(<App />);
-      await user.click(
-        screen.getByRole("button", { name: `Project overview: ${name}` }),
-      );
-      const dialog = screen.getByRole("dialog", { name });
-      if (name === "Heldyn")
-        expect(
-          within(dialog).getByRole("heading", { name: "Project context" }),
-        ).toBeInTheDocument();
-      else
-        expect(
-          within(dialog).getByRole("heading", { name: "My role" }),
-        ).toBeInTheDocument();
-    },
-  );
+  it("opens the case study from anywhere on the Project block", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    const trigger = screen.getByRole("button", {
+      name: `Read case study: ${weddingPlatform}`,
+    });
+    await user.click(trigger.closest("article")!.querySelector("img")!);
+    const dialog = screen.getByRole("dialog", { name: weddingPlatform });
+    await user.click(
+      within(dialog).getByRole("button", { name: "Close dialog" }),
+    );
+    expect(trigger).toHaveFocus();
+  });
+
+  it("keeps an honest short note for the Project without confirmed detail", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    const headline = "Clearer digital experiences for a home-care service";
+    await user.click(
+      screen.getByRole("button", { name: `Read case study: ${headline}` }),
+    );
+    expect(
+      within(screen.getByRole("dialog", { name: headline })).getByRole(
+        "heading",
+        { name: "Project context" },
+      ),
+    ).toBeInTheDocument();
+  });
 
   it("opens navigation and closes it after an anchor selection", async () => {
     const user = userEvent.setup();
@@ -124,7 +195,7 @@ describe("Portfolio visitor journeys", () => {
       "href",
       "https://t.me/ghostmania2",
     );
-    const resume = screen.getByRole("link", { name: /Download résumé/i });
+    const resume = screen.getByRole("link", { name: /Download resume/i });
     expect(resume).toHaveAttribute("href", "/resume.pdf");
     expect(resume).toHaveAttribute("download");
   });
@@ -157,7 +228,9 @@ describe("Portfolio visitor journeys", () => {
     const user = userEvent.setup();
     render(<App />);
     await user.click(
-      screen.getByRole("button", { name: "Project overview: Hochzeit.click" }),
+      screen.getByRole("button", {
+        name: `Read case study: ${weddingPlatform}`,
+      }),
     );
     const dialog = screen.getByRole("dialog");
     const close = within(dialog).getByRole("button", { name: "Close dialog" });
@@ -174,11 +247,13 @@ describe("Portfolio visitor journeys", () => {
     const user = userEvent.setup();
     render(<App />);
     await user.click(
-      screen.getByRole("button", { name: "Project overview: Hochzeit.click" }),
+      screen.getByRole("button", {
+        name: `Read case study: ${weddingPlatform}`,
+      }),
     );
     const dialog = screen.getByRole("dialog");
     fireEvent.click(
-      within(dialog).getByRole("heading", { name: "Hochzeit.click" }),
+      within(dialog).getByRole("heading", { name: weddingPlatform }),
     );
     fireEvent.click(dialog, { clientX: 0, clientY: 0 });
     expect(dialog).toBeInTheDocument();

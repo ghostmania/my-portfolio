@@ -101,11 +101,6 @@ for (const language of ["en", "ru"] as const) {
         () => document.documentElement.scrollWidth <= innerWidth,
       ),
     ).toBe(true);
-    await page.goto("./projects/");
-    await expect(
-      page.getByRole("group", { name: labels.afterWork }),
-    ).toBeVisible();
-    await expect(trigger).toBeInViewport();
     await page.locator("footer").scrollIntoViewIfNeeded();
     await expect(trigger).toBeInViewport();
     expect(

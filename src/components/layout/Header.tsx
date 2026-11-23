@@ -2,24 +2,18 @@ import { useLanguage } from "../../i18n/context";
 import { useEffect, useRef, useState } from "react";
 import { Mail, Menu, X } from "lucide-react";
 import { profile } from "../../data/profile";
+import { Wordmark } from "../Wordmark";
 
-export function Header({ technical = false }: { technical?: boolean }) {
+const navigation = [
+  "Projects",
+  "Services",
+  "About",
+  "Experience",
+  "Contact",
+].map((label) => ({ label, href: "#" + label.toLowerCase() }));
+
+export function Header() {
   const { t, language, setLanguage } = useLanguage();
-  const home = import.meta.env.BASE_URL;
-  const navigation = technical
-    ? [
-        { label: "Home", href: home },
-        ...["Projects", "About", "Skills", "Contact"].map((label) => ({
-          label,
-          href: "#" + label.toLowerCase(),
-        })),
-      ]
-    : [
-        { label: "Services", href: "#services" },
-        { label: "Gallery", href: "#gallery" },
-        { label: "Projects", href: home + "projects/" },
-        { label: "Contact", href: "#contact" },
-      ];
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState("");
   const toggleRef = useRef<HTMLButtonElement>(null);
@@ -53,14 +47,7 @@ export function Header({ technical = false }: { technical?: boolean }) {
   return (
     <header className="site-header">
       <div className="wrap header-inner">
-        <a
-          className="wordmark"
-          href={technical ? home : "#top"}
-          aria-label={t("{name} home", { name: t(profile.name) })}
-        >
-          {t(profile.name)}
-          <span>.</span>
-        </a>
+        <Wordmark />
         <nav
           id="navigation"
           className={`navigation${open ? " open" : ""}`}

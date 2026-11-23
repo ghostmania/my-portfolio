@@ -1,5 +1,10 @@
 export interface Profile {
+  /** Full public name, used in titles, metadata and the copyright line. */
   readonly name: string;
+  /** Used where Igor speaks in the first person. */
+  readonly firstName: string;
+  /** The Wordmark. */
+  readonly domain: string;
   readonly location: string;
   readonly timezone: string;
   readonly availability: string;
@@ -9,10 +14,19 @@ export interface Profile {
   readonly telegram: string | null;
   /** Path relative to public/, without a leading slash. Supply the real file first. */
   readonly resume: string | null;
+  /** The Portrait shown in the hero. Path relative to public/. */
+  readonly portrait: {
+    path: string;
+    alt: string;
+    width: number;
+    height: number;
+  };
 }
 
 export const profile: Profile = {
-  name: "Igor", // TODO: confirm preferred public name before adding a surname.
+  name: "Igor Borisenko",
+  firstName: "Igor",
+  domain: "igorborisenko.dev",
   location: "Batumi, Georgia",
   timezone: "UTC+4",
   availability: "Available for remote work",
@@ -21,10 +35,16 @@ export const profile: Profile = {
   github: "https://github.com/ghostmania",
   telegram: "https://t.me/ghostmania2",
   resume: "resume.pdf",
+  portrait: {
+    path: "portrait.webp",
+    alt: "Portrait of Igor Borisenko",
+    width: 720,
+    height: 720,
+  },
 };
 
 export const metrics = [
   { value: "8", label: "Years of experience" },
   { value: "15", label: "Projects delivered" },
-  { value: "500", label: "Daily users on Hochzeit.click" },
+  { value: "500", label: "Daily users on a wedding platform" },
 ] as const;

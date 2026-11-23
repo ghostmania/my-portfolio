@@ -1,30 +1,31 @@
+import { useLanguage } from "../../i18n/context";
 import { experience } from "../../data/experience";
 
 export function Experience() {
+  const { t } = useLanguage();
   return (
     <section
       id="experience"
-      className="section experience-layout"
+      className="section"
       aria-labelledby="experience-heading"
     >
       <div className="section-heading">
         <div>
-          <span className="eyebrow">The journey so far</span>
-          <h2 id="experience-heading">Built on experience.</h2>
+          <h2 id="experience-heading">{t("Built on experience.")}</h2>
         </div>
       </div>
       <div className="experience-list">
         {experience.map((item) => (
-          <article className="experience-item" key={item.title}>
+          <article className="experience-item" key={item.period}>
             <div className="experience-time">
-              {item.period}
+              {t(item.period)}
               <br />
-              {item.category}
+              {t(item.category)}
             </div>
             <div>
-              <h3>{item.title}</h3>
-              <p className="role">{item.role}</p>
-              <p>{item.description}</p>
+              <h3>{t(item.title)}</h3>
+              <p className="role">{t(item.role)}</p>
+              <p>{t(item.description)}</p>
             </div>
           </article>
         ))}
